@@ -4,33 +4,33 @@ import 'package:flutter/widgets.dart';
 
 typedef OnViewCreated = void Function(MethodChannel channel);
 // ignore: must_be_immutable
-class AdHubBanner extends StatefulWidget {
+class AdHubNative extends StatefulWidget {
   String adId;
   OnViewCreated onCreated;
   double showWidth;
   double showHeight;
-  _BannerState _state;
+  _NativeState _state;
 
-  AdHubBanner(String adId, {Key key, this.onCreated, this.showWidth, this.showHeight}) {
+  AdHubNative(String adId, {Key key, this.onCreated, this.showWidth, this.showHeight}) {
     this.adId = adId;
   }
 
   @override
   State<StatefulWidget> createState() {
-    _state = _BannerState(this.adId, this.onCreated, this.showWidth, this.showHeight);
+    _state = _NativeState(this.adId, this.onCreated, this.showWidth, this.showHeight);
     return _state;
   }
 }
 
-class _BannerState extends State<AdHubBanner> with AutomaticKeepAliveClientMixin {
+class _NativeState extends State<AdHubNative> with AutomaticKeepAliveClientMixin {
   /// 这个 ViewType 需要和上面在 Android 中定义的 ViewType 相同。
-  static const String VIEW_TYPE = "com.cabe.flutter.widget.AdHubBanner";
+  static const String VIEW_TYPE = "com.cabe.flutter.widget.AdHubNative";
   String _adId;
   OnViewCreated _onBannerCreated;
   double _showWidth;
   double _showHeight;
 
-  _BannerState(String adId, OnViewCreated onBannerCreated, double showWidth, double showHeight) {
+  _NativeState(String adId, OnViewCreated onBannerCreated, double showWidth, double showHeight) {
     this._adId = adId;
     this._onBannerCreated = onBannerCreated;
     this._showWidth = showWidth;

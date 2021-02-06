@@ -7,8 +7,14 @@ import androidx.annotation.NonNull;
 import com.adhub.ads.AdHubs;
 import com.cabe.flutter.plugin.banner.AdHubBanner;
 import com.cabe.flutter.plugin.banner.AdHubBannerFactory;
+import com.cabe.flutter.plugin.banner.AdHubNative;
+import com.cabe.flutter.plugin.banner.AdHubNativeFactory;
 import com.cabe.flutter.plugin.splash.AdHubSplash;
 import com.cabe.flutter.plugin.splash.AdHubSplashFactory;
+import com.cabe.flutter.plugin.video.FullScreenVideo;
+import com.cabe.flutter.plugin.video.FullScreenVideoFactory;
+import com.cabe.flutter.plugin.video.RewardedVideo;
+import com.cabe.flutter.plugin.video.RewardedVideoFactory;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
@@ -40,8 +46,11 @@ public class WidgetAdHubPlugin implements FlutterPlugin, MethodCallHandler, Acti
         return activityBinding.getActivity();
       }
     };
-    flutterPluginBinding.getPlatformViewRegistry().registerViewFactory(AdHubBanner.VIEW_TYPE_ID, new AdHubBannerFactory(messenger, listener));
     flutterPluginBinding.getPlatformViewRegistry().registerViewFactory(AdHubSplash.VIEW_TYPE_ID, new AdHubSplashFactory(messenger, listener));
+    flutterPluginBinding.getPlatformViewRegistry().registerViewFactory(AdHubBanner.VIEW_TYPE_ID, new AdHubBannerFactory(messenger, listener));
+    flutterPluginBinding.getPlatformViewRegistry().registerViewFactory(AdHubNative.VIEW_TYPE_ID, new AdHubNativeFactory(messenger, listener));
+    flutterPluginBinding.getPlatformViewRegistry().registerViewFactory(RewardedVideo.VIEW_TYPE_ID, new RewardedVideoFactory(messenger, listener));
+    flutterPluginBinding.getPlatformViewRegistry().registerViewFactory(FullScreenVideo.VIEW_TYPE_ID, new FullScreenVideoFactory(messenger, listener));
   }
 
   @Override

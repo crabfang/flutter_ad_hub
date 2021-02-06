@@ -1,40 +1,34 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:widget_ad_hub/widget_ad_hub_banner.dart';
 
-typedef OnViewCreated = void Function(MethodChannel channel);
 // ignore: must_be_immutable
-class AdHubBanner extends StatefulWidget {
+class RewardedVideoAd extends StatefulWidget {
   String adId;
   OnViewCreated onCreated;
-  double showWidth;
-  double showHeight;
-  _BannerState _state;
+  _RewardedVideoAdState _state;
 
-  AdHubBanner(String adId, {Key key, this.onCreated, this.showWidth, this.showHeight}) {
+  RewardedVideoAd(String adId, {Key key, this.onCreated}) {
     this.adId = adId;
   }
 
   @override
   State<StatefulWidget> createState() {
-    _state = _BannerState(this.adId, this.onCreated, this.showWidth, this.showHeight);
+    _state = _RewardedVideoAdState(this.adId, this.onCreated);
     return _state;
   }
 }
 
-class _BannerState extends State<AdHubBanner> with AutomaticKeepAliveClientMixin {
+class _RewardedVideoAdState extends State<RewardedVideoAd> with AutomaticKeepAliveClientMixin {
   /// 这个 ViewType 需要和上面在 Android 中定义的 ViewType 相同。
-  static const String VIEW_TYPE = "com.cabe.flutter.widget.AdHubBanner";
+  static const String VIEW_TYPE = "com.cabe.flutter.widget.RewardedVideoAd";
   String _adId;
   OnViewCreated _onBannerCreated;
-  double _showWidth;
-  double _showHeight;
 
-  _BannerState(String adId, OnViewCreated onBannerCreated, double showWidth, double showHeight) {
+  _RewardedVideoAdState(String adId, OnViewCreated onBannerCreated) {
     this._adId = adId;
     this._onBannerCreated = onBannerCreated;
-    this._showWidth = showWidth;
-    this._showHeight = showHeight;
   }
 
   @override
@@ -47,9 +41,7 @@ class _BannerState extends State<AdHubBanner> with AutomaticKeepAliveClientMixin
         viewType: VIEW_TYPE,
         creationParams: {
           "adId": _adId,
-          "timeout": 5000,
-          "showWidth": _showWidth,
-          "showHeight": _showHeight,
+          "timeout": 10000,
         },
         creationParamsCodec: const StandardMessageCodec(),
         onPlatformViewCreated: this._onViewCreated,
@@ -59,9 +51,7 @@ class _BannerState extends State<AdHubBanner> with AutomaticKeepAliveClientMixin
         viewType: VIEW_TYPE,
         creationParams: {
           "adId": _adId,
-          "timeout": 5000,
-          "showWidth": _showWidth,
-          "showHeight": _showHeight,
+          "timeout": 10000,
         },
         creationParamsCodec: const StandardMessageCodec(),
         onPlatformViewCreated: this._onViewCreated,

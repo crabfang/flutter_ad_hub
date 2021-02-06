@@ -19,12 +19,13 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
 
 public class AdHubSplash implements PlatformView, MethodChannel.MethodCallHandler {
+    private static final String TAG = "AdHubSplash";
     public static String VIEW_TYPE_ID = "com.cabe.flutter.widget.AdHubSplash";
-    private final FrameLayout splashLayout;
+    private final FrameLayout containerLayout;
     private SplashAd splashAd;
 
     public AdHubSplash(Context context, BinaryMessenger messenger, int id, Object args) {
-        splashLayout = new FrameLayout(context);
+        containerLayout = new FrameLayout(context);
         final MethodChannel methodChannel = new MethodChannel(messenger, VIEW_TYPE_ID + "#" + id);
         methodChannel.setMethodCallHandler(this);
 
@@ -39,27 +40,27 @@ public class AdHubSplash implements PlatformView, MethodChannel.MethodCallHandle
             }
         }
         try {
-            splashAd = new SplashAd(context, splashLayout, adId, new AdListener() {
+            splashAd = new SplashAd(context, containerLayout, adId, new AdListener() {
                 @Override
                 public void onAdLoaded() {
-                    Log.i("AdHubsDemo", "onAdLoaded");
+                    Log.i(TAG, "onAdLoaded");
                     methodChannel.invokeMethod("onAdLoaded", null);
                 }
                 @Override
                 public void onAdShown() {
-                    Log.i("AdHubsDemo", "onAdShown");
+                    Log.i(TAG, "onAdShown");
                     methodChannel.invokeMethod("onAdShown", null);
                 }
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
-                    Log.i("AdHubsDemo", "onAdFailedToLoad:" + errorCode);
+                    Log.i(TAG, "onAdFailedToLoad:" + errorCode);
                     Map<String, Object> params = new HashMap<>();
                     params.put("errorCode", errorCode);
                     methodChannel.invokeMethod("onAdFailedToLoad", params);
                 }
                 @Override
                 public void onAdClosed() {
-                    Log.i("AdHubsDemo", "onAdClosed");
+                    Log.i(TAG, "onAdClosed");
                     methodChannel.invokeMethod("onAdClosed", null);
                 }
                 /**
@@ -68,13 +69,14 @@ public class AdHubSplash implements PlatformView, MethodChannel.MethodCallHandle
                  */
                 @Override
                 public void onAdTick(long millisUnitFinished) {
+                    Log.i(TAG, "onAdTick: " + millisUnitFinished);
                     Map<String, Object> params = new HashMap<>();
                     params.put("millisUnitFinished", millisUnitFinished);
                     methodChannel.invokeMethod("onAdTick", params);
                 }
                 @Override
                 public void onAdClicked() {
-                    Log.i("AdHubsDemo", "onAdClick");
+                    Log.i(TAG, "onAdClick");
                     methodChannel.invokeMethod("onAdClicked", null);
                 }
             }, timeout);//广告请求超时时长，建议5秒以上,该参数单位为ms
@@ -85,15 +87,15 @@ public class AdHubSplash implements PlatformView, MethodChannel.MethodCallHandle
 
     @Override
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
-        System.out.println("AdHubSplash MethodChannel call.method: " + methodCall.method+ " call arguments: " + methodCall.arguments);
+        System.out.println(TAG + " MethodChannel call.method: " + methodCall.method+ " call arguments: " + methodCall.arguments);
         if(methodCall.method.equals("cancel")) {
-            if(splashAd != null) splashAd.cancel(splashLayout.getContext());
+            if(splashAd != null) splashAd.cancel(containerLayout.getContext());
         }
     }
 
     @Override
     public View getView() {
-        return splashLayout;
+        return containerLayout;
     }
 
     @Override

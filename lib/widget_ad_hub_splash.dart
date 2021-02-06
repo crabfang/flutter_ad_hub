@@ -41,20 +41,20 @@ class _SplashState extends State<AdHubSplash> with AutomaticKeepAliveClientMixin
         viewType: VIEW_TYPE,
         creationParams: {
           "adId": _adId,
-          "timeout": 4000,
+          "timeout": 5000,
         },
         creationParamsCodec: const StandardMessageCodec(),
-        onPlatformViewCreated: this._onBannerViewCreated,
+        onPlatformViewCreated: this._onViewCreated,
       );
     } else if(defaultTargetPlatform == TargetPlatform.iOS) {
       return UiKitView(
         viewType: VIEW_TYPE,
         creationParams: {
           "adId": _adId,
-          "timeout": 4000,
+          "timeout": 5000,
         },
         creationParamsCodec: const StandardMessageCodec(),
-        onPlatformViewCreated: this._onBannerViewCreated,
+        onPlatformViewCreated: this._onViewCreated,
       );
     } else return null;
   }
@@ -62,9 +62,9 @@ class _SplashState extends State<AdHubSplash> with AutomaticKeepAliveClientMixin
   @override
   bool get wantKeepAlive => true;
 
-  void _onBannerViewCreated(int id) {
-    print("splash created: $id");
-    MethodChannel channel = MethodChannel("${VIEW_TYPE}_$id");
+  void _onViewCreated(int id) {
+    print("created: $id");
+    MethodChannel channel = MethodChannel("$VIEW_TYPE#$id");
     this._onBannerCreated(channel);
   }
 }

@@ -1,5 +1,6 @@
-package com.cabe.flutter.plugin.banner;
+package com.cabe.flutter.plugin.video;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -7,8 +8,8 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
-import com.adhub.ads.BannerAd;
-import com.adhub.ads.BannerAdListener;
+import com.adhub.ads.FullScreenVideoAd;
+import com.adhub.ads.FullScreenVideoAdListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,77 +19,56 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
 
-public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandler {
-    private static final String TAG = "AdHubBanner";
-    public static String VIEW_TYPE_ID = "com.cabe.flutter.widget.AdHubBanner";
+public class FullScreenVideo implements PlatformView, MethodChannel.MethodCallHandler {
+    private static final String TAG = "FullScreenVideo";
+    public static String VIEW_TYPE_ID = "com.cabe.flutter.widget.FullScreenVideoAd";
     private final FrameLayout containerLayout;
-    private BannerAd bannerAd;
+    private FullScreenVideoAd videoAd;
 
-    public AdHubBanner(Context context, BinaryMessenger messenger, int id, Object args) {
+    public FullScreenVideo(final Context context, BinaryMessenger messenger, int id, Object args) {
         containerLayout = new FrameLayout(context);
         final MethodChannel methodChannel = new MethodChannel(messenger, VIEW_TYPE_ID + "#" + id);
         methodChannel.setMethodCallHandler(this);
 
         Map<String, Object> params = (Map<String, Object>) args;
         String adId = (String) params.get("adId");
-        int timeout = 5000;
-        if(params.containsKey("timeout")) {
-            try {
-                timeout = (int) params.get("timeout");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        double bannerWidth = 400;
-        if(params.containsKey("bannerWidth")) {
-            try {
-                bannerWidth = (double) params.get("bannerWidth");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        double bannerHeight = Math.round(bannerWidth / 6.4F);
-        if(params.containsKey("bannerHeight")) {
-            try {
-                bannerWidth = (double) params.get("bannerHeight");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        int timeout = 10000;
+
         try {
-            bannerAd = new BannerAd(context, adId, new BannerAdListener() {
+            videoAd = new FullScreenVideoAd(context, adId, new FullScreenVideoAdListener() {
                 @Override
                 public void onAdFailed(int errorCode) {
-                    Log.i(TAG,TAG + " Banner ad onAdFailed " + errorCode);
+                    Log.i("AdHubsDemo",TAG + " onAdFailed ");
                     Map<String, Object> params = new HashMap<>();
-                    params.put("code", errorCode);
+                    params.put("errorCode", errorCode);
                     methodChannel.invokeMethod("onAdFailed", params);
                 }
+
                 @Override
                 public void onAdLoaded() {
-                    Log.i(TAG,TAG + " Banner ad onAdLoaded");
+                    Log.i("AdHubsDemo",TAG + " onAdLoaded");
                     methodChannel.invokeMethod("onAdLoaded", null);
+                    //全屏广告加载成功直接显示全屏视频
+                    if (videoAd != null && videoAd.isLoaded()) {
+                        videoAd.showAd((Activity) context);
+                    }
                 }
                 @Override
                 public void onAdShown() {
-                    Log.i(TAG,TAG + " Banner ad onAdShown");
+                    Log.i("AdHubsDemo",TAG + " onAdShown");
                     methodChannel.invokeMethod("onAdShown", null);
                 }
                 @Override
                 public void onAdClosed() {
-                    Log.i(TAG,TAG + " Banner ad onAdClosed");
+                    Log.i("AdHubsDemo",TAG + " onAdClosed");
                     methodChannel.invokeMethod("onAdClosed", null);
                 }
                 @Override
                 public void onAdClick() {
-                    Log.i(TAG,TAG + " Banner ad onAdClick");
+                    Log.i("AdHubsDemo",TAG + " onAdClick");
                     methodChannel.invokeMethod("onAdClick", null);
                 }
             }, timeout);//广告请求超时时长，建议5秒以上,该参数单位为ms
-
-            //建议Banner宽高比为6.4:1，特别说明：宽和高的单位是dp
-            //广告view的宽度特别说明：假如广告有左右间距，故广告view的宽度 = 屏幕宽度 - 左右间距总和
-            bannerAd.loadAd((float) bannerWidth, (float) bannerHeight, containerLayout);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,9 +76,12 @@ public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandle
 
     @Override
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
-        System.out.println(TAG + " MethodChannel call.method: " + methodCall.method+ " call arguments: " + methodCall.arguments);
-        if(methodCall.method.equals("destroy")) {
-            if(bannerAd != null) bannerAd.destroy();
+        String method = methodCall.method;
+        System.out.println(TAG + " MethodChannel call.method: " + method+ " call arguments: " + methodCall.arguments);
+        if(method.equals("destroy")) {
+            if(videoAd != null) videoAd.destroy();
+        } else if(method.equals("loadAd")) {
+            if(videoAd != null)videoAd.loadAd();
         }
     }
 

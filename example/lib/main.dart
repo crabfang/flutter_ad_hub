@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:widget_ad_hub/plugin_ad_hub.dart';
 import 'package:widget_ad_hub/widget_ad_hub_banner.dart';
+import 'package:widget_ad_hub/widget_ad_hub_native.dart';
 import 'package:widget_ad_hub/widget_ad_hub_splash.dart';
+import 'package:widget_ad_hub/widget_ad_fullscreen_video.dart';
+import 'package:widget_ad_hub/widget_ad_rewarded_video.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,41 +32,77 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Column(
-          children: [
-            GestureDetector(
-              onTap: _onTap,
-              child: Text("row title"),
-            ),
-            // Container(
-            //   width: double.infinity,
-            //   height: 500,
-            //   child: AdHubSplash("103222",onCreated: _onSplashCreated),
-            // ),
-            Container(
-              width: double.infinity,
-              height: 100,
-              margin: EdgeInsets.only(top: 10.0),
-              child: AdHubBanner("103223",onCreated: _onSplashCreated, bannerWidth: 400,),
-            )
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: _actionFullScreenVideo,
+                    child: Text("全屏视频"),
+                  ),
+                  GestureDetector(
+                    onTap: _actionRewardedVideo,
+                    child: Text("激励视频"),
+                  ),
+                ],
+              ),
+              Container(
+                width: double.infinity,
+                height: 600,
+                child: AdHubSplash("103222",onCreated: _onViewCreated),
+              ),
+              Container(
+                width: double.infinity,
+                height: 100,
+                margin: EdgeInsets.only(top: 10.0),
+                child: AdHubBanner("103223", onCreated: _onViewCreated, showWidth: 360,),
+              ),
+              Container(
+                width: double.infinity,
+                height: 200,
+                margin: EdgeInsets.only(top: 10.0),
+                child: AdHubNative("103224",onCreated: _onViewCreated, showWidth: 360),
+              ),
+              Container(
+                width: double.infinity,
+                height: 100,
+                margin: EdgeInsets.only(top: 10.0),
+                child: RewardedVideoAd("103226",onCreated: _onRewardedCreated,),
+              ),
+              Container(
+                width: double.infinity,
+                height: 100,
+                margin: EdgeInsets.only(top: 10.0),
+                child: FullscreenVideoAd("103225",onCreated: _onFullscreenCreated,),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
-  MethodChannel bannerChannel;
-  int _clickCount = 0;
-  void _onSplashCreated(MethodChannel bannerChannel) {
-    this.bannerChannel = bannerChannel;
-    print("_onSplashCreated");
+  MethodChannel _fullscreenChannel;
+  MethodChannel _rewardedChannel;
+  void _onViewCreated(MethodChannel channel) {
+    print("_onViewCreated: " + channel.toString());
+  }
+  void _onFullscreenCreated(MethodChannel channel) {
+    print("_onFullscreenCreated");
+    this._fullscreenChannel = channel;
+  }
+  void _onRewardedCreated(MethodChannel channel) {
+    print("_onRewardedCreated");
+    this._rewardedChannel = channel;
   }
   
-  void _onTap() {
-    print("_onTap: $_clickCount");
-    if(_clickCount == 0) {
-      AdHubPlugin.init("20159");
-    }
-    _clickCount ++;
+  void _actionFullScreenVideo() {
+    print("_actionFullScreenVideo");
+    if(_fullscreenChannel != null) _fullscreenChannel.invokeMethod("loadAD");
+  }
+  void _actionRewardedVideo() {
+    print("_actionRewardedVideo");
+    if(_rewardedChannel != null) _rewardedChannel.invokeMethod("loadAD");
   }
 }
