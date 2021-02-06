@@ -41,6 +41,7 @@ class _MyAppState extends State<MyApp> {
                     onTap: _actionFullScreenVideo,
                     child: Text("全屏视频"),
                   ),
+                  Text("      "),
                   GestureDetector(
                     onTap: _actionRewardedVideo,
                     child: Text("激励视频"),
@@ -99,10 +100,10 @@ class _MyAppState extends State<MyApp> {
   
   void _actionFullScreenVideo() {
     print("_actionFullScreenVideo");
-    if(_fullscreenChannel != null) _fullscreenChannel.invokeMethod("loadAD");
+    if(_fullscreenChannel != null) _fullscreenChannel.invokeMethod("loadAd");
   }
   void _actionRewardedVideo() {
     print("_actionRewardedVideo");
-    if(_rewardedChannel != null) _rewardedChannel.invokeMethod("loadAD");
+    if(_rewardedChannel != null) _rewardedChannel.invokeMethod("loadAd");
   }
 }

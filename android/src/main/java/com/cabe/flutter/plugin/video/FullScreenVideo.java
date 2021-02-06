@@ -38,7 +38,7 @@ public class FullScreenVideo implements PlatformView, MethodChannel.MethodCallHa
             videoAd = new FullScreenVideoAd(context, adId, new FullScreenVideoAdListener() {
                 @Override
                 public void onAdFailed(int errorCode) {
-                    Log.i("AdHubsDemo",TAG + " onAdFailed ");
+                    Log.i(TAG,TAG + " onAdFailed ");
                     Map<String, Object> params = new HashMap<>();
                     params.put("errorCode", errorCode);
                     methodChannel.invokeMethod("onAdFailed", params);
@@ -46,7 +46,7 @@ public class FullScreenVideo implements PlatformView, MethodChannel.MethodCallHa
 
                 @Override
                 public void onAdLoaded() {
-                    Log.i("AdHubsDemo",TAG + " onAdLoaded");
+                    Log.i(TAG,TAG + " onAdLoaded");
                     methodChannel.invokeMethod("onAdLoaded", null);
                     //全屏广告加载成功直接显示全屏视频
                     if (videoAd != null && videoAd.isLoaded()) {
@@ -55,12 +55,12 @@ public class FullScreenVideo implements PlatformView, MethodChannel.MethodCallHa
                 }
                 @Override
                 public void onAdShown() {
-                    Log.i("AdHubsDemo",TAG + " onAdShown");
+                    Log.i(TAG,TAG + " onAdShown");
                     methodChannel.invokeMethod("onAdShown", null);
                 }
                 @Override
                 public void onAdClosed() {
-                    Log.i("AdHubsDemo",TAG + " onAdClosed");
+                    Log.i(TAG,TAG + " onAdClosed");
                     methodChannel.invokeMethod("onAdClosed", null);
                 }
                 @Override
