@@ -28,7 +28,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.cabe.flutter.plugin.widget.widget_ad_hub
+        package: com.cabe.flutter.plugin
         pluginClass: WidgetAdHubPlugin
       ios:
         pluginClass: WidgetAdHubPlugin
