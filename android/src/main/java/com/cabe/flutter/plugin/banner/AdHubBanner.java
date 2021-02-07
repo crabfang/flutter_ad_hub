@@ -39,18 +39,18 @@ public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandle
                 e.printStackTrace();
             }
         }
-        double bannerWidth = 400;
-        if(params.containsKey("bannerWidth")) {
+        int showWidth = 400;
+        if(params.containsKey("showWidth")) {
             try {
-                bannerWidth = (double) params.get("bannerWidth");
+                showWidth = (int) params.get("showWidth");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        double bannerHeight = Math.round(bannerWidth / 6.4F);
-        if(params.containsKey("bannerHeight")) {
+        int showHeight = Math.round(showWidth / 6.4F);
+        if(params.containsKey("showHeight")) {
             try {
-                bannerWidth = (double) params.get("bannerHeight");
+                showHeight = (int) params.get("showHeight");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -88,7 +88,7 @@ public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandle
 
             //建议Banner宽高比为6.4:1，特别说明：宽和高的单位是dp
             //广告view的宽度特别说明：假如广告有左右间距，故广告view的宽度 = 屏幕宽度 - 左右间距总和
-            bannerAd.loadAd((float) bannerWidth, (float) bannerHeight, containerLayout);
+            bannerAd.loadAd((float) showWidth, (float) showHeight, containerLayout);
         } catch (Exception e) {
             e.printStackTrace();
         }

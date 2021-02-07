@@ -39,18 +39,18 @@ public class AdHubNative implements PlatformView, MethodChannel.MethodCallHandle
                 e.printStackTrace();
             }
         }
-        double showWidth = 400;
+        int showWidth = 400;
         if(params.containsKey("showWidth")) {
             try {
-                showWidth = (double) params.get("showWidth");
+                showWidth = (int) params.get("showWidth");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        double showHeight = 400;
+        int showHeight = 400;
         if(params.containsKey("showHeight")) {
             try {
-                showHeight = (double) params.get("showHeight");
+                showHeight = (int) params.get("showHeight");
             } catch (Exception e) {
                 e.printStackTrace();
             }

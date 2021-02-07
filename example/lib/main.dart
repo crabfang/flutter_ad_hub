@@ -20,9 +20,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    AdHubPlugin.init("20159").then((value) => {
-
-    });
+    AdHubPlugin.init("20159")
   }
 
   @override

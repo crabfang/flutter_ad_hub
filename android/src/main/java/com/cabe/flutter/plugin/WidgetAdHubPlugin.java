@@ -66,10 +66,10 @@ public class WidgetAdHubPlugin implements FlutterPlugin, MethodCallHandler, Acti
     try {
       String appId = (String) call.argument("appId");
       AdHubs.init(activityBinding.getActivity(), appId);
-      result.success(true);
+      result.success(0);
     } catch (Exception e) {
       e.printStackTrace();
-      result.success(false);
+      result.success(1);
     }
   }
 

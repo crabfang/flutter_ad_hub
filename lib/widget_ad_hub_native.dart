@@ -48,8 +48,8 @@ class _NativeState extends State<AdHubNative> with AutomaticKeepAliveClientMixin
         creationParams: {
           "adId": _adId,
           "timeout": 5000,
-          "showWidth": _showWidth,
-          "showHeight": _showHeight,
+          "showWidth": _showWidth?.toInt(),
+          "showHeight": _showHeight?.toInt(),
         },
         creationParamsCodec: const StandardMessageCodec(),
         onPlatformViewCreated: this._onViewCreated,
@@ -60,8 +60,8 @@ class _NativeState extends State<AdHubNative> with AutomaticKeepAliveClientMixin
         creationParams: {
           "adId": _adId,
           "timeout": 5000,
-          "showWidth": _showWidth,
-          "showHeight": _showHeight,
+          "showWidth": _showWidth?.toInt(),
+          "showHeight": _showHeight?.toInt(),
         },
         creationParamsCodec: const StandardMessageCodec(),
         onPlatformViewCreated: this._onViewCreated,
