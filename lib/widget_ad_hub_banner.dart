@@ -21,12 +21,12 @@ class _BannerState extends AdHubState<AdHubBanner> {
 
   @override String onGetViewType() => "com.cabe.flutter.widget.AdHubBanner";
   @override
-  dynamic creationParams() {
+  dynamic creationParams(String adId) {
     Map<String, Object> params = {
       "showWidth": _showWidth?.toInt(),
       "showHeight": _showHeight?.toInt(),
     };
-    params.addAll(super.creationParams());
+    params.addAll(super.creationParams(adId));
     return params;
   }
 
