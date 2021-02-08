@@ -40,19 +40,19 @@ abstract class AdHubState<T extends AdHubWidget> extends State<T> with Automatic
   OnViewCreated _onCreated;
   String onGetViewType();
   int onGetTimeout() => 5000;
-  dynamic creationParams() => {
-    "adId": adIdOfAndroid,
+  dynamic creationParams(String adId) => {
+    "adId": adId,
     "timeout": onGetTimeout(),
   };
   AndroidView onCreateAndroidView() => AndroidView(
     viewType: onGetViewType(),
-    creationParams: creationParams(),
+    creationParams: creationParams(adIdOfAndroid),
     creationParamsCodec: const StandardMessageCodec(),
     onPlatformViewCreated: this._onViewCreated,
   );
   UiKitView onCreateUiKitView() => UiKitView(
     viewType: onGetViewType(),
-    creationParams: creationParams(),
+    creationParams: creationParams(adIdOfIOS),
     creationParamsCodec: const StandardMessageCodec(),
     onPlatformViewCreated: this._onViewCreated,
   );
