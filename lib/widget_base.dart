@@ -29,6 +29,10 @@ abstract class AdHubWidget extends StatefulWidget {
   Future<dynamic> onHandlerChannel(MethodCall call) async {
     print("$tag: onHandlerChannel: ${call.method}: ${call.arguments}");
   }
+
+  void destroy() {
+    channel?.invokeMethod("destroy");
+  }
 }
 
 abstract class AdHubState<T extends AdHubWidget> extends State<T> with AutomaticKeepAliveClientMixin {

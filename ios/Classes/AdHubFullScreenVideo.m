@@ -60,6 +60,10 @@
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([@"loadAd" isEqualToString:call.method]) {
+      NSString *adId = _args[@"adId"];
+      NSInteger timeout = [_args[@"timeout"] integerValue];
+      self.fullscreenVideo = [[AdHubFullscreenVideo alloc]initWithSpaceID:adId spaceParam:@"" lifeTime:timeout];
+      self.fullscreenVideo.delegate = self;
       [self.fullscreenVideo ADH_loadFullscreenVideoAd];
   }
 }

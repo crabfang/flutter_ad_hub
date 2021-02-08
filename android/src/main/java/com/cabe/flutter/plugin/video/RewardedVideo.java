@@ -38,19 +38,19 @@ public class RewardedVideo implements PlatformView, MethodChannel.MethodCallHand
             videoAd = new RewardedVideoAd(context, adId, new RewardedVideoAdListener() {
                 @Override
                 public void onRewarded() {
-                    Log.d("AdHubsDemo","enter onRewarded");
+                    Log.d(TAG,"onRewarded");
                     methodChannel.invokeMethod("onRewarded", null);
                 }
                 @Override
                 public void onRewardedVideoAdFailedToLoad(int errorCode) {
-                    Log.d("AdHubsDemo","enter onRewardedVideoAdFailedToLoad errorCode = "+errorCode);
+                    Log.d(TAG,"onRewardedVideoAdFailedToLoad errorCode = "+errorCode);
                     Map<String, Object> params = new HashMap<>();
                     params.put("errorCode", errorCode);
                     methodChannel.invokeMethod("onRewardedVideoAdFailedToLoad", params);
                 }
                 @Override
                 public void onRewardedVideoAdLoaded() {
-                    Log.d("AdHubsDemo","enter onRewardedVideoAdLoaded");
+                    Log.d(TAG,"onRewardedVideoAdLoaded");
                     methodChannel.invokeMethod("onRewardedVideoAdLoaded", null);
                     //广告加载成功直接显示
                     if (videoAd != null && videoAd.isLoaded()) {
@@ -59,17 +59,17 @@ public class RewardedVideo implements PlatformView, MethodChannel.MethodCallHand
                 }
                 @Override
                 public void onRewardedVideoAdShown() {
-                    Log.d("AdHubsDemo","enter onRewardedVideoAdShown");
+                    Log.d(TAG,"onRewardedVideoAdShown");
                     methodChannel.invokeMethod("onRewardedVideoAdShown", null);
                 }
                 @Override
                 public void onRewardedVideoAdClosed() {
-                    Log.d("AdHubsDemo","enter onRewardedVideoAdClosed");
+                    Log.d(TAG,"onRewardedVideoAdClosed");
                     methodChannel.invokeMethod("onRewardedVideoAdClosed", null);
                 }
                 @Override
                 public void onRewardedVideoClick() {
-                    Log.d("AdHubsDemo","enter onRewardedVideoClick");
+                    Log.d(TAG,"onRewardedVideoClick");
                     methodChannel.invokeMethod("onRewardedVideoClick", null);
                 }
             }, timeout);//广告请求超时时长，建议5秒以上,该参数单位为ms
@@ -80,11 +80,10 @@ public class RewardedVideo implements PlatformView, MethodChannel.MethodCallHand
 
     @Override
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
-        String method = methodCall.method;
-        System.out.println(TAG + " MethodChannel call.method: " + method+ " call arguments: " + methodCall.arguments);
-        if(method.equals("destroy")) {
+        Log.w(TAG, "onMethodCall: method: " + methodCall.method + " arguments: " + methodCall.arguments);
+        if(methodCall.method.equals("destroy")) {
             if(videoAd != null) videoAd.destroy();
-        } else if(method.equals("loadAd")) {
+        } else if(methodCall.method.equals("loadAd")) {
             if(videoAd != null) videoAd.loadAd();
         }
     }

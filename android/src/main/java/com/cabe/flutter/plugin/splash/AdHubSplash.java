@@ -87,8 +87,8 @@ public class AdHubSplash implements PlatformView, MethodChannel.MethodCallHandle
 
     @Override
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
-        System.out.println(TAG + " MethodChannel call.method: " + methodCall.method+ " call arguments: " + methodCall.arguments);
-        if(methodCall.method.equals("cancel")) {
+        Log.w(TAG, "onMethodCall: method: " + methodCall.method + " arguments: " + methodCall.arguments);
+        if(methodCall.method.equals("destroy")) {
             if(splashAd != null) splashAd.cancel(containerLayout.getContext());
         }
     }

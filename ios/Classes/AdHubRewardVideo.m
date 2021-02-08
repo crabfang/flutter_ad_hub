@@ -65,7 +65,11 @@
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([@"loadAd" isEqualToString:call.method]) {
       NSLog(@"ADH_loadAd");
-    [self.rewardedVideo ADH_loadRewardedVideoAd];
+      NSString *adId = _args[@"adId"];
+      NSInteger timeout = [_args[@"timeout"] integerValue];
+      self.rewardedVideo = [[AdHubRewardedVideo alloc]initWithSpaceID:adId spaceParam:@"" lifeTime:timeout];
+      self.rewardedVideo.delegate = self;
+      [self.rewardedVideo ADH_loadRewardedVideoAd];
   }
 }
 

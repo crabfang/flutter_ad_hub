@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -29,8 +28,8 @@ class _MyAppState extends State<MyApp> {
   FullscreenVideoAd fullscreenAd;
   @override
   Widget build(BuildContext context) {
-    // rewardedAd = RewardedVideoAd("103226", "103232");
-    // fullscreenAd = FullscreenVideoAd("103225", "103231");
+    rewardedAd = RewardedVideoAd("103226", "103232");
+    fullscreenAd = FullscreenVideoAd("103225", "103231");
     int splashHeight = 10;
     if(defaultTargetPlatform == TargetPlatform.android) splashHeight = 600;
     return MaterialApp(
@@ -98,10 +97,10 @@ class _MyAppState extends State<MyApp> {
   
   void _actionFullScreenVideo() {
     print("_actionFullScreenVideo");
-    FullscreenVideoAd("103225", "103231")?.loadAD();
+    fullscreenAd?.loadAD();
   }
   void _actionRewardedVideo() {
     print("_actionRewardedVideo");
-    RewardedVideoAd("103226", "103232")?.loadAD();
+    rewardedAd?.loadAD();
   }
 }

@@ -59,29 +59,29 @@ public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandle
             bannerAd = new BannerAd(context, adId, new BannerAdListener() {
                 @Override
                 public void onAdFailed(int errorCode) {
-                    Log.d(TAG,TAG + " Banner ad onAdFailed " + errorCode);
+                    Log.d(TAG,"onAdFailed " + errorCode);
                     Map<String, Object> params = new HashMap<>();
                     params.put("code", errorCode);
                     methodChannel.invokeMethod("onAdFailed", params);
                 }
                 @Override
                 public void onAdLoaded() {
-                    Log.d(TAG,TAG + " Banner ad onAdLoaded");
+                    Log.d(TAG,"onAdLoaded");
                     methodChannel.invokeMethod("onAdLoaded", null);
                 }
                 @Override
                 public void onAdShown() {
-                    Log.d(TAG,TAG + " Banner ad onAdShown");
+                    Log.d(TAG,"onAdShown");
                     methodChannel.invokeMethod("onAdShown", null);
                 }
                 @Override
                 public void onAdClosed() {
-                    Log.d(TAG,TAG + " Banner ad onAdClosed");
+                    Log.d(TAG,"onAdClosed");
                     methodChannel.invokeMethod("onAdClosed", null);
                 }
                 @Override
                 public void onAdClick() {
-                    Log.d(TAG,TAG + " Banner ad onAdClick");
+                    Log.d(TAG,"onAdClick");
                     methodChannel.invokeMethod("onAdClick", null);
                 }
             }, timeout);//广告请求超时时长，建议5秒以上,该参数单位为ms
@@ -96,7 +96,7 @@ public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandle
 
     @Override
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
-        System.out.println(TAG + " MethodChannel call.method: " + methodCall.method+ " call arguments: " + methodCall.arguments);
+        Log.w(TAG, "onMethodCall: method: " + methodCall.method + " arguments: " + methodCall.arguments);
         if(methodCall.method.equals("destroy")) {
             if(bannerAd != null) bannerAd.destroy();
         }

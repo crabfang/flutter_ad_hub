@@ -59,14 +59,14 @@ public class AdHubNative implements PlatformView, MethodChannel.MethodCallHandle
             nativeAd = new NativeAd(context, adId, new NativeAdListener() {
                 @Override
                 public void onAdFailed(int errorCode) {
-                    Log.d(TAG,TAG + " Native ad onAdFailed " + errorCode);
+                    Log.d(TAG,"onAdFailed " + errorCode);
                     Map<String, Object> params = new HashMap<>();
                     params.put("code", errorCode);
                     methodChannel.invokeMethod("onAdFailed", params);
                 }
                 @Override
                 public void onAdLoaded(View view) {
-                    Log.d(TAG,TAG + " Native ad onAdLoaded");
+                    Log.d(TAG,"onAdLoaded");
                     methodChannel.invokeMethod("onAdLoaded", null);
                     if (containerLayout.getChildCount() > 0) {
                         containerLayout.removeAllViews();
@@ -76,18 +76,18 @@ public class AdHubNative implements PlatformView, MethodChannel.MethodCallHandle
                 }
                 @Override
                 public void onAdShown() {
-                    Log.d(TAG,TAG + " Native ad onAdShown");
+                    Log.d(TAG,"onAdShown");
                     methodChannel.invokeMethod("onAdShown", null);
                 }
                 @Override
                 public void onAdClosed() {
-                    Log.d(TAG,TAG + " Native ad onAdClosed");
+                    Log.d(TAG,"onAdClosed");
                     methodChannel.invokeMethod("onAdClosed", null);
                 }
 
                 @Override
                 public void onAdClick() {
-                    Log.d(TAG,TAG + " Native ad onAdClick");
+                    Log.d(TAG,"onAdClick");
                     methodChannel.invokeMethod("onAdClick", null);
                 }
             }, timeout);//广告请求超时时长，建议5秒以上,该参数单位为ms
@@ -102,7 +102,7 @@ public class AdHubNative implements PlatformView, MethodChannel.MethodCallHandle
 
     @Override
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
-        System.out.println(TAG + " MethodChannel call.method: " + methodCall.method+ " call arguments: " + methodCall.arguments);
+        Log.w(TAG, "onMethodCall: method: " + methodCall.method + " arguments: " + methodCall.arguments);
         if(methodCall.method.equals("destroy")) {
             if(nativeAd != null) nativeAd.destroy();
         }
