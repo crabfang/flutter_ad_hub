@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_ad_hub/plugin_ad_hub.dart';
 import 'package:widget_ad_hub/widget_ad_fullscreen_video.dart';
@@ -28,9 +29,10 @@ class _MyAppState extends State<MyApp> {
   FullscreenVideoAd fullscreenAd;
   @override
   Widget build(BuildContext context) {
-    rewardedAd = RewardedVideoAd("103226", "103232");
-    fullscreenAd = FullscreenVideoAd("103225", "103231");
-    final width = window.physicalSize.width;
+    // rewardedAd = RewardedVideoAd("103226", "103232");
+    // fullscreenAd = FullscreenVideoAd("103225", "103231");
+    int splashHeight = 10;
+    if(defaultTargetPlatform == TargetPlatform.android) splashHeight = 600;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -62,20 +64,20 @@ class _MyAppState extends State<MyApp> {
               ),
               Container(
                 width: double.infinity,
-                height: 600,
+                height: splashHeight.toDouble(),
                 child: AdHubSplash("103222", "103228"),
               ),
               Container(
                 width: double.infinity,
                 height: 100,
                 margin: EdgeInsets.only(top: 10.0),
-                child: AdHubBanner("103223", "103229", showWidth: width),
+                child: AdHubBanner("103223", "103229", showWidth: 360),
               ),
               Container(
                 width: double.infinity,
                 height: 300,
                 margin: EdgeInsets.only(top: 10.0),
-                child: AdHubNative("103224", "103230", showWidth: width,),
+                child: AdHubNative("103224", "103230", showWidth: 360, showHeight: 200, ),
               ),
               Container(
                 width: double.infinity,
@@ -96,10 +98,10 @@ class _MyAppState extends State<MyApp> {
   
   void _actionFullScreenVideo() {
     print("_actionFullScreenVideo");
-    fullscreenAd?.loadAD();
+    FullscreenVideoAd("103225", "103231")?.loadAD();
   }
   void _actionRewardedVideo() {
     print("_actionRewardedVideo");
-    rewardedAd?.loadAD();
+    RewardedVideoAd("103226", "103232")?.loadAD();
   }
 }

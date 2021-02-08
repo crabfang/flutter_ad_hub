@@ -23,8 +23,8 @@ class _BannerState extends AdHubState<AdHubBanner> {
   @override
   dynamic creationParams(String adId) {
     Map<String, Object> params = {
-      "showWidth": _showWidth?.toInt(),
-      "showHeight": _showHeight?.toInt(),
+      "showWidth": _showWidth?.toInt() ?? 0,
+      "showHeight": _showHeight?.toInt() ?? 0,
     };
     params.addAll(super.creationParams(adId));
     return params;
