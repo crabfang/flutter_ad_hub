@@ -77,7 +77,7 @@ abstract class AdHubState<T extends AdHubWidget> extends State<T> with Automatic
   }
 
   void _onViewCreated(int id) {
-    print("$tag _onViewCreated: $id");
+    print("$tag onViewCreated: $id");
     MethodChannel channel = MethodChannel("${onGetViewType()}#$id");
     this._onCreated(channel);
   }

@@ -38,7 +38,7 @@ public class FullScreenVideo implements PlatformView, MethodChannel.MethodCallHa
             videoAd = new FullScreenVideoAd(context, adId, new FullScreenVideoAdListener() {
                 @Override
                 public void onAdFailed(int errorCode) {
-                    Log.i(TAG,TAG + " onAdFailed ");
+                    Log.d(TAG,TAG + " onAdFailed ");
                     Map<String, Object> params = new HashMap<>();
                     params.put("errorCode", errorCode);
                     methodChannel.invokeMethod("onAdFailed", params);
@@ -46,7 +46,7 @@ public class FullScreenVideo implements PlatformView, MethodChannel.MethodCallHa
 
                 @Override
                 public void onAdLoaded() {
-                    Log.i(TAG,TAG + " onAdLoaded");
+                    Log.d(TAG,TAG + " onAdLoaded");
                     methodChannel.invokeMethod("onAdLoaded", null);
                     //全屏广告加载成功直接显示全屏视频
                     if (videoAd != null && videoAd.isLoaded()) {
@@ -55,17 +55,17 @@ public class FullScreenVideo implements PlatformView, MethodChannel.MethodCallHa
                 }
                 @Override
                 public void onAdShown() {
-                    Log.i(TAG,TAG + " onAdShown");
+                    Log.d(TAG,TAG + " onAdShown");
                     methodChannel.invokeMethod("onAdShown", null);
                 }
                 @Override
                 public void onAdClosed() {
-                    Log.i(TAG,TAG + " onAdClosed");
+                    Log.d(TAG,TAG + " onAdClosed");
                     methodChannel.invokeMethod("onAdClosed", null);
                 }
                 @Override
                 public void onAdClick() {
-                    Log.i("AdHubsDemo",TAG + " onAdClick");
+                    Log.d("AdHubsDemo",TAG + " onAdClick");
                     methodChannel.invokeMethod("onAdClick", null);
                 }
             }, timeout);//广告请求超时时长，建议5秒以上,该参数单位为ms

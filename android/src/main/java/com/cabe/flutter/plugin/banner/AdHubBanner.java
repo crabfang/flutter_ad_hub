@@ -59,29 +59,29 @@ public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandle
             bannerAd = new BannerAd(context, adId, new BannerAdListener() {
                 @Override
                 public void onAdFailed(int errorCode) {
-                    Log.i(TAG,TAG + " Banner ad onAdFailed " + errorCode);
+                    Log.d(TAG,TAG + " Banner ad onAdFailed " + errorCode);
                     Map<String, Object> params = new HashMap<>();
                     params.put("code", errorCode);
                     methodChannel.invokeMethod("onAdFailed", params);
                 }
                 @Override
                 public void onAdLoaded() {
-                    Log.i(TAG,TAG + " Banner ad onAdLoaded");
+                    Log.d(TAG,TAG + " Banner ad onAdLoaded");
                     methodChannel.invokeMethod("onAdLoaded", null);
                 }
                 @Override
                 public void onAdShown() {
-                    Log.i(TAG,TAG + " Banner ad onAdShown");
+                    Log.d(TAG,TAG + " Banner ad onAdShown");
                     methodChannel.invokeMethod("onAdShown", null);
                 }
                 @Override
                 public void onAdClosed() {
-                    Log.i(TAG,TAG + " Banner ad onAdClosed");
+                    Log.d(TAG,TAG + " Banner ad onAdClosed");
                     methodChannel.invokeMethod("onAdClosed", null);
                 }
                 @Override
                 public void onAdClick() {
-                    Log.i(TAG,TAG + " Banner ad onAdClick");
+                    Log.d(TAG,TAG + " Banner ad onAdClick");
                     methodChannel.invokeMethod("onAdClick", null);
                 }
             }, timeout);//广告请求超时时长，建议5秒以上,该参数单位为ms

@@ -43,24 +43,24 @@ public class AdHubSplash implements PlatformView, MethodChannel.MethodCallHandle
             splashAd = new SplashAd(context, containerLayout, adId, new AdListener() {
                 @Override
                 public void onAdLoaded() {
-                    Log.i(TAG, "onAdLoaded");
+                    Log.d(TAG, "onAdLoaded");
                     methodChannel.invokeMethod("onAdLoaded", null);
                 }
                 @Override
                 public void onAdShown() {
-                    Log.i(TAG, "onAdShown");
+                    Log.d(TAG, "onAdShown");
                     methodChannel.invokeMethod("onAdShown", null);
                 }
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
-                    Log.i(TAG, "onAdFailedToLoad:" + errorCode);
+                    Log.d(TAG, "onAdFailedToLoad:" + errorCode);
                     Map<String, Object> params = new HashMap<>();
                     params.put("errorCode", errorCode);
                     methodChannel.invokeMethod("onAdFailedToLoad", params);
                 }
                 @Override
                 public void onAdClosed() {
-                    Log.i(TAG, "onAdClosed");
+                    Log.d(TAG, "onAdClosed");
                     methodChannel.invokeMethod("onAdClosed", null);
                 }
                 /**
@@ -69,14 +69,14 @@ public class AdHubSplash implements PlatformView, MethodChannel.MethodCallHandle
                  */
                 @Override
                 public void onAdTick(long millisUnitFinished) {
-                    Log.i(TAG, "onAdTick: " + millisUnitFinished);
+                    Log.d(TAG, "onAdTick: " + millisUnitFinished);
                     Map<String, Object> params = new HashMap<>();
                     params.put("millisUnitFinished", millisUnitFinished);
                     methodChannel.invokeMethod("onAdTick", params);
                 }
                 @Override
                 public void onAdClicked() {
-                    Log.i(TAG, "onAdClick");
+                    Log.d(TAG, "onAdClick");
                     methodChannel.invokeMethod("onAdClicked", null);
                 }
             }, timeout);//广告请求超时时长，建议5秒以上,该参数单位为ms

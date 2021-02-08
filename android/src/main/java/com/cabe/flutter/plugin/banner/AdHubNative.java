@@ -39,7 +39,7 @@ public class AdHubNative implements PlatformView, MethodChannel.MethodCallHandle
                 e.printStackTrace();
             }
         }
-        int showWidth = 400;
+        int showWidth = 0;
         if(params.containsKey("showWidth")) {
             try {
                 showWidth = (int) params.get("showWidth");
@@ -47,7 +47,7 @@ public class AdHubNative implements PlatformView, MethodChannel.MethodCallHandle
                 e.printStackTrace();
             }
         }
-        int showHeight = 400;
+        int showHeight = 0;
         if(params.containsKey("showHeight")) {
             try {
                 showHeight = (int) params.get("showHeight");
@@ -59,14 +59,14 @@ public class AdHubNative implements PlatformView, MethodChannel.MethodCallHandle
             nativeAd = new NativeAd(context, adId, new NativeAdListener() {
                 @Override
                 public void onAdFailed(int errorCode) {
-                    Log.i(TAG,TAG + " Native ad onAdFailed " + errorCode);
+                    Log.d(TAG,TAG + " Native ad onAdFailed " + errorCode);
                     Map<String, Object> params = new HashMap<>();
                     params.put("code", errorCode);
                     methodChannel.invokeMethod("onAdFailed", params);
                 }
                 @Override
                 public void onAdLoaded(View view) {
-                    Log.i(TAG,TAG + " Native ad onAdLoaded");
+                    Log.d(TAG,TAG + " Native ad onAdLoaded");
                     methodChannel.invokeMethod("onAdLoaded", null);
                     if (containerLayout.getChildCount() > 0) {
                         containerLayout.removeAllViews();
@@ -76,18 +76,18 @@ public class AdHubNative implements PlatformView, MethodChannel.MethodCallHandle
                 }
                 @Override
                 public void onAdShown() {
-                    Log.i(TAG,TAG + " Native ad onAdShown");
+                    Log.d(TAG,TAG + " Native ad onAdShown");
                     methodChannel.invokeMethod("onAdShown", null);
                 }
                 @Override
                 public void onAdClosed() {
-                    Log.i(TAG,TAG + " Native ad onAdClosed");
+                    Log.d(TAG,TAG + " Native ad onAdClosed");
                     methodChannel.invokeMethod("onAdClosed", null);
                 }
 
                 @Override
                 public void onAdClick() {
-                    Log.i(TAG,TAG + " Native ad onAdClick");
+                    Log.d(TAG,TAG + " Native ad onAdClick");
                     methodChannel.invokeMethod("onAdClick", null);
                 }
             }, timeout);//广告请求超时时长，建议5秒以上,该参数单位为ms

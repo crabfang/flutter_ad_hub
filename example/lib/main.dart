@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:widget_ad_hub/plugin_ad_hub.dart';
 import 'package:widget_ad_hub/widget_ad_fullscreen_video.dart';
@@ -28,6 +30,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     rewardedAd = RewardedVideoAd("103226", "103232");
     fullscreenAd = FullscreenVideoAd("103225", "103231");
+    final width = window.physicalSize.width;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -40,12 +43,20 @@ class _MyAppState extends State<MyApp> {
                 children: [
                   GestureDetector(
                     onTap: _actionFullScreenVideo,
-                    child: Text("全屏视频"),
+                    child: Container(
+                      width: 100,
+                      height: 40,
+                      child: Text("全屏视频"),
+                    ),
                   ),
                   Text("      "),
                   GestureDetector(
                     onTap: _actionRewardedVideo,
-                    child: Text("激励视频"),
+                    child: Container(
+                      width: 100,
+                      height: 40,
+                      child: Text("激励视频"),
+                    ),
                   ),
                 ],
               ),
@@ -58,24 +69,22 @@ class _MyAppState extends State<MyApp> {
                 width: double.infinity,
                 height: 100,
                 margin: EdgeInsets.only(top: 10.0),
-                child: AdHubBanner("103223", "103229", showWidth: 360),
+                child: AdHubBanner("103223", "103229", showWidth: width),
               ),
               Container(
                 width: double.infinity,
-                height: 200,
+                height: 300,
                 margin: EdgeInsets.only(top: 10.0),
-                child: AdHubNative("103224", "103230", showWidth: 360, showHeight: 200,),
+                child: AdHubNative("103224", "103230", showWidth: width,),
               ),
               Container(
                 width: double.infinity,
-                height: 100,
-                margin: EdgeInsets.only(top: 10.0),
+                height: 0,
                 child: rewardedAd,
               ),
               Container(
                 width: double.infinity,
-                height: 100,
-                margin: EdgeInsets.only(top: 10.0),
+                height: 0,
                 child: fullscreenAd,
               )
             ],
