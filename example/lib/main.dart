@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
                 width: double.infinity,
                 height: 200,
                 margin: EdgeInsets.only(top: 10.0),
-                child: AdHubNative("103224", "103230", showWidth: 360),
+                child: AdHubNative("103224", "103230", showWidth: 360, showHeight: 200,),
               ),
               Container(
                 width: double.infinity,
