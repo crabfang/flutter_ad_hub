@@ -61,9 +61,15 @@
 /**
 @return 展示下部logo位置，需要给传入view设置尺寸。
 */
-//- (UIView *)ADH_splashBottomView {
-//    
-//}
+- (UIView *)ADH_splashBottomView {
+    NSString *imageName = _args[@"bottomPic"];
+    UIImage *image = [UIImage imageNamed:imageName];
+    UIImageView *imgView = [[UIImageView alloc] initWithImage:image];
+    UIWindow* window = [[[UIApplication sharedApplication] delegate] window];
+    CGFloat height = image.size.height / image.size.width * window.rootViewController.view.frame.size.width;
+    imgView.frame = (CGRect){0, 0, window.rootViewController.view.frame.size.width, height};
+    return imgView;
+}
 
 /**
 开屏展现

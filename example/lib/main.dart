@@ -75,7 +75,7 @@ class _MyAppState extends State<MyApp> {
               Container(
                 width: double.infinity,
                 height: splashHeight.toDouble(),
-                child: AdHubSplash("103222", "103228"),
+                child: AdHubSplash("103222", "103228", bottomPic: "splash_bottom",),
               ),
               Container(
                 width: double.infinity,

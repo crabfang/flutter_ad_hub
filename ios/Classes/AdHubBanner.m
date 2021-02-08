@@ -34,6 +34,7 @@
         _frame = frame;
         _viewId = viewId;
         _args = args;
+        _args[@"showHeight"] = @(64);
         _messenger = messenger;
     }
     return self;
@@ -41,7 +42,7 @@
 
 - (void)setRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar {
     _registrar = registrar;
-    NSString *channelName = [NSString stringWithFormat:@"%@#%lld", @"com.cabe.flutter.widget.AdHubNative", _viewId];
+    NSString *channelName = [NSString stringWithFormat:@"%@#%lld", @"com.cabe.flutter.widget.AdHubBanner", _viewId];
     _channel = [FlutterMethodChannel methodChannelWithName:channelName binaryMessenger:[registrar messenger]];
     [_registrar addMethodCallDelegate:self channel:_channel];
 }
@@ -65,10 +66,35 @@
     // 设置当前的VC，用于广告位点击跳转
     UIWindow* window = [[[UIApplication sharedApplication] delegate] window];
     self.banner.adhubBannerViewController = window.rootViewController;
-    
+
     // 加载广告
     [self.banner ADH_loadBannerAd];
     return self.banner;
+}
+
+- (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
+  if ([@"refresh" isEqualToString:call.method]) {
+      NSLog(@"refresh");
+      NSString *adId = _args[@"adId"];
+      NSInteger timeout = [_args[@"timeout"] integerValue];
+      NSInteger showWidth = [_args[@"showWidth"] integerValue];
+      NSInteger showHeight = [_args[@"showHeight"] integerValue];
+      if (showWidth < 1) {
+          showWidth = 360;
+      }
+      if (showHeight < 1) {
+          showHeight = showWidth / 6.4;
+      }
+      self.banner = [[AdHubBannerView alloc] initWithFrame:CGRectMake(0, 0, showWidth, showHeight) spaceID:adId spaceParam:@"" lifeTime:timeout];
+      self.banner.delegate = self;
+
+      // 设置当前的VC，用于广告位点击跳转
+      UIWindow* window = [[[UIApplication sharedApplication] delegate] window];
+      self.banner.adhubBannerViewController = window.rootViewController;
+
+      // 加载广告
+      [self.banner ADH_loadBannerAd];
+  }
 }
 
 /**
@@ -96,7 +122,7 @@ Banner广告消失
 Banner广告请求失败
 */
 - (void)ADH_banner:(AdHubBannerView *)adHubBanner didFailToLoadAdWithError:(AdHubRequestError *)error {
-    [_channel invokeMethod:@"ADH_banner didFailToLoadAdWithError" arguments:@{@"errorCode": @(error.code)}];
+    [_channel invokeMethod:@"ADH_banner didFailToLoadAdWithError" arguments:@{@"errorcode": @(error.code)}];
 }
 
 @end
