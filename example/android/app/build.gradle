@@ -40,11 +40,6 @@ android {
         versionName flutterVersionName
         multiDexEnabled true
     }
-    repositories {
-        flatDir {
-            dirs 'libs'
-        }
-    }
 
     buildTypes {
         release {

@@ -36,20 +36,15 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
-    repositories {
-        flatDir {
-            dirs 'libs'
-        }
-    }
 }
 dependencies {
-    api(name: 'adhub_fusion_sdk_4.41.2', ext: 'aar')
-    api(name: 'adhub_ad_sdk_3.4.8', ext: 'aar')
-    api(name: 'GDTSDK.unionNoPlugin.4.294.1164', ext: 'aar')
-    api(name: 'Baidu_MobAds_SDK-release', ext: 'aar')
-    api(name: 'open_ad_sdk', ext: 'aar')
-    api(name: 'oaid_sdk_1.0.23', ext: 'aar')
-    api(name: 'kssdk-ad-3.3.6-publishRelease', ext: 'aar')
+    api 'com.cabe.lib.ext:BaiduMobAdsSDK:1.0.0'
+    api 'com.cabe.lib.ext:GDTSDK-unionNoPlugin:4.294.1164'
+    api 'com.cabe.lib.ext:KSSdk-AD:3.3.6'
+    api 'com.cabe.lib.ext:OAIDSdk:1.0.23'
+    api 'com.cabe.lib.ext:OpenAdSdk:1.0.0'
+    api 'com.cabe.lib.ext:AdHubSdk:3.4.8'
+    api 'com.cabe.lib.ext:AdHubFusionSdk:4.41.2'
 
     api 'com.android.support:support-v4:28.0.0'
     api "com.android.support:appcompat-v7:28.0.0"
