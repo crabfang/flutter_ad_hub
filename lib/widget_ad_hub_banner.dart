@@ -13,6 +13,10 @@ class AdHubBanner extends AdHubWidget {
   AdHubState<AdHubWidget> onGetAdHubState(onViewCreated) {
     return _BannerState(this.adIdOfAndroid, this.adIdOfIOS, onViewCreated, this.showWidth, this.showHeight);
   }
+
+  void refresh() {
+    channel?.invokeMethod("refresh");
+  }
 }
 
 class _BannerState extends AdHubState<AdHubBanner> {

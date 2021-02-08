@@ -22,20 +22,35 @@ import io.flutter.plugin.platform.PlatformView;
 public class RewardedVideo implements PlatformView, MethodChannel.MethodCallHandler {
     private static final String TAG = "RewardedVideo";
     public static String VIEW_TYPE_ID = "com.cabe.flutter.widget.RewardedVideoAd";
+
+    private final String adId;
+    private int timeout;
+    private final MethodChannel methodChannel;
     private final FrameLayout containerLayout;
     private RewardedVideoAd videoAd;
 
     public RewardedVideo(final Context context, BinaryMessenger messenger, int id, Object args) {
         containerLayout = new FrameLayout(context);
-        final MethodChannel methodChannel = new MethodChannel(messenger, VIEW_TYPE_ID + "#" + id);
+        methodChannel = new MethodChannel(messenger, VIEW_TYPE_ID + "#" + id);
         methodChannel.setMethodCallHandler(this);
 
         Map<String, Object> params = (Map<String, Object>) args;
-        String adId = (String) params.get("adId");
-        int timeout = 10000;
+        adId = (String) params.get("adId");
+        timeout = 10000;
+        if(params.containsKey("timeout")) {
+            try {
+                timeout = (int) params.get("timeout");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
+        createAD();
+    }
+
+    private void createAD() {
         try {
-            videoAd = new RewardedVideoAd(context, adId, new RewardedVideoAdListener() {
+            videoAd = new RewardedVideoAd(containerLayout.getContext(), adId, new RewardedVideoAdListener() {
                 @Override
                 public void onRewarded() {
                     Log.d(TAG,"onRewarded");
@@ -54,7 +69,7 @@ public class RewardedVideo implements PlatformView, MethodChannel.MethodCallHand
                     methodChannel.invokeMethod("onRewardedVideoAdLoaded", null);
                     //广告加载成功直接显示
                     if (videoAd != null && videoAd.isLoaded()) {
-                        videoAd.showAd((Activity) context);
+                        videoAd.showAd((Activity) containerLayout.getContext());
                     }
                 }
                 @Override
@@ -64,6 +79,8 @@ public class RewardedVideo implements PlatformView, MethodChannel.MethodCallHand
                 }
                 @Override
                 public void onRewardedVideoAdClosed() {
+                    destroyAD();
+                    createAD();
                     Log.d(TAG,"onRewardedVideoAdClosed");
                     methodChannel.invokeMethod("onRewardedVideoAdClosed", null);
                 }
@@ -78,13 +95,22 @@ public class RewardedVideo implements PlatformView, MethodChannel.MethodCallHand
         }
     }
 
+    private void destroyAD() {
+        if(videoAd != null) videoAd.destroy();
+        videoAd = null;
+    }
+
     @Override
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
         Log.w(TAG, "onMethodCall: method: " + methodCall.method + " arguments: " + methodCall.arguments);
         if(methodCall.method.equals("destroy")) {
-            if(videoAd != null) videoAd.destroy();
+            destroyAD();
+            result.success(true);
         } else if(methodCall.method.equals("loadAd")) {
             if(videoAd != null) videoAd.loadAd();
+            result.success(true);
+        } else {
+            result.notImplemented();
         }
     }
 

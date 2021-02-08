@@ -22,20 +22,35 @@ import io.flutter.plugin.platform.PlatformView;
 public class FullScreenVideo implements PlatformView, MethodChannel.MethodCallHandler {
     private static final String TAG = "FullScreenVideo";
     public static String VIEW_TYPE_ID = "com.cabe.flutter.widget.FullScreenVideoAd";
+
+    private final String adId;
+    private int timeout;
+    private final MethodChannel methodChannel;
     private final FrameLayout containerLayout;
     private FullScreenVideoAd videoAd;
 
     public FullScreenVideo(final Context context, BinaryMessenger messenger, int id, Object args) {
         containerLayout = new FrameLayout(context);
-        final MethodChannel methodChannel = new MethodChannel(messenger, VIEW_TYPE_ID + "#" + id);
+        methodChannel = new MethodChannel(messenger, VIEW_TYPE_ID + "#" + id);
         methodChannel.setMethodCallHandler(this);
 
         Map<String, Object> params = (Map<String, Object>) args;
-        String adId = (String) params.get("adId");
-        int timeout = 10000;
+        adId = (String) params.get("adId");
+        timeout = 10000;
+        if(params.containsKey("timeout")) {
+            try {
+                timeout = (int) params.get("timeout");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
+        createAD();
+    }
+
+    private void createAD() {
         try {
-            videoAd = new FullScreenVideoAd(context, adId, new FullScreenVideoAdListener() {
+            videoAd = new FullScreenVideoAd(containerLayout.getContext(), adId, new FullScreenVideoAdListener() {
                 @Override
                 public void onAdFailed(int errorCode) {
                     Log.d(TAG,"onAdFailed");
@@ -50,7 +65,7 @@ public class FullScreenVideo implements PlatformView, MethodChannel.MethodCallHa
                     methodChannel.invokeMethod("onAdLoaded", null);
                     //全屏广告加载成功直接显示全屏视频
                     if (videoAd != null && videoAd.isLoaded()) {
-                        videoAd.showAd((Activity) context);
+                        videoAd.showAd((Activity) containerLayout.getContext());
                     }
                 }
                 @Override
@@ -60,6 +75,8 @@ public class FullScreenVideo implements PlatformView, MethodChannel.MethodCallHa
                 }
                 @Override
                 public void onAdClosed() {
+                    destroyAD();
+                    createAD();
                     Log.d(TAG,"onAdClosed");
                     methodChannel.invokeMethod("onAdClosed", null);
                 }
@@ -74,13 +91,22 @@ public class FullScreenVideo implements PlatformView, MethodChannel.MethodCallHa
         }
     }
 
+    private void destroyAD() {
+        if(videoAd != null) videoAd.destroy();
+        videoAd = null;
+    }
+
     @Override
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
         Log.w(TAG, "onMethodCall: method: " + methodCall.method + " arguments: " + methodCall.arguments);
         if(methodCall.method.equals("destroy")) {
-            if(videoAd != null) videoAd.destroy();
+            destroyAD();
+            result.success(true);
         } else if(methodCall.method.equals("loadAd")) {
             if(videoAd != null)videoAd.loadAd();
+            result.success(true);
+        } else {
+            result.notImplemented();
         }
     }
 

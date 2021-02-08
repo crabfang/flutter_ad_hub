@@ -24,10 +24,12 @@ class _MyAppState extends State<MyApp> {
     AdHubPlugin.init("20159", "20160");
   }
 
+  AdHubBanner banner;
   RewardedVideoAd rewardedAd;
   FullscreenVideoAd fullscreenAd;
   @override
   Widget build(BuildContext context) {
+    banner = AdHubBanner("103223", "103229", showWidth: 360);
     rewardedAd = RewardedVideoAd("103226", "103232");
     fullscreenAd = FullscreenVideoAd("103225", "103231");
     int splashHeight = 10;
@@ -42,6 +44,15 @@ class _MyAppState extends State<MyApp> {
             children: [
               Row(
                 children: [
+                  GestureDetector(
+                    onTap: _actionBannerRefresh,
+                    child: Container(
+                      width: 100,
+                      height: 40,
+                      child: Text("刷新banner"),
+                    ),
+                  ),
+                  Text("      "),
                   GestureDetector(
                     onTap: _actionFullScreenVideo,
                     child: Container(
@@ -70,7 +81,7 @@ class _MyAppState extends State<MyApp> {
                 width: double.infinity,
                 height: 100,
                 margin: EdgeInsets.only(top: 10.0),
-                child: AdHubBanner("103223", "103229", showWidth: 360),
+                child: banner,
               ),
               Container(
                 width: double.infinity,
@@ -80,12 +91,12 @@ class _MyAppState extends State<MyApp> {
               ),
               Container(
                 width: double.infinity,
-                height: 0,
+                height: 1,
                 child: rewardedAd,
               ),
               Container(
                 width: double.infinity,
-                height: 0,
+                height: 1,
                 child: fullscreenAd,
               )
             ],
@@ -93,6 +104,11 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+
+  void _actionBannerRefresh() {
+    print("_actionBannerRefresh");
+    banner?.refresh();
   }
   
   void _actionFullScreenVideo() {

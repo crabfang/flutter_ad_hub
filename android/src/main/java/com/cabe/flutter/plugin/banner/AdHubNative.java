@@ -82,6 +82,7 @@ public class AdHubNative implements PlatformView, MethodChannel.MethodCallHandle
                 @Override
                 public void onAdClosed() {
                     Log.d(TAG,"onAdClosed");
+                    containerLayout.removeAllViews();
                     methodChannel.invokeMethod("onAdClosed", null);
                 }
 

@@ -10,6 +10,7 @@ class FullscreenVideoAd extends AdHubWidget {
   }
 
   void loadAD() {
+    print("$tag: loadAD $channel");
     channel?.invokeMethod("loadAd");
   }
 }

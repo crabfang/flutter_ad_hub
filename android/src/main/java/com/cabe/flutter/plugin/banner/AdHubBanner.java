@@ -21,17 +21,23 @@ import io.flutter.plugin.platform.PlatformView;
 public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandler {
     private static final String TAG = "AdHubBanner";
     public static String VIEW_TYPE_ID = "com.cabe.flutter.widget.AdHubBanner";
+
+    private final String adId;
+    private int timeout;
+    private int showWidth;
+    private int showHeight;
+    private final MethodChannel methodChannel;
     private final FrameLayout containerLayout;
     private BannerAd bannerAd;
 
     public AdHubBanner(Context context, BinaryMessenger messenger, int id, Object args) {
         containerLayout = new FrameLayout(context);
-        final MethodChannel methodChannel = new MethodChannel(messenger, VIEW_TYPE_ID + "#" + id);
+        methodChannel = new MethodChannel(messenger, VIEW_TYPE_ID + "#" + id);
         methodChannel.setMethodCallHandler(this);
 
         Map<String, Object> params = (Map<String, Object>) args;
-        String adId = (String) params.get("adId");
-        int timeout = 5000;
+        adId = (String) params.get("adId");
+        timeout = 5000;
         if(params.containsKey("timeout")) {
             try {
                 timeout = (int) params.get("timeout");
@@ -39,7 +45,7 @@ public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandle
                 e.printStackTrace();
             }
         }
-        int showWidth = 400;
+        showWidth = 400;
         if(params.containsKey("showWidth")) {
             try {
                 showWidth = (int) params.get("showWidth");
@@ -47,7 +53,7 @@ public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandle
                 e.printStackTrace();
             }
         }
-        int showHeight = Math.round(showWidth / 6.4F);
+        showHeight = Math.round(showWidth / 6.4F);
         if(params.containsKey("showHeight")) {
             try {
                 showHeight = (int) params.get("showHeight");
@@ -55,8 +61,28 @@ public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandle
                 e.printStackTrace();
             }
         }
+        createBanner();
+    }
+
+    @Override
+    public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
+        Log.w(TAG, "onMethodCall: method: " + methodCall.method + " arguments: " + methodCall.arguments);
+        if(methodCall.method.equals("destroy")) {
+            if(bannerAd != null) bannerAd.destroy();
+            result.success(true);
+        } else if(methodCall.method.equals("refresh")) {
+            createBanner();
+            result.success(true);
+        } else {
+            result.notImplemented();
+        }
+    }
+
+    private void createBanner() {
         try {
-            bannerAd = new BannerAd(context, adId, new BannerAdListener() {
+            containerLayout.removeAllViews();
+
+            bannerAd = new BannerAd(containerLayout.getContext(), adId, new BannerAdListener() {
                 @Override
                 public void onAdFailed(int errorCode) {
                     Log.d(TAG,"onAdFailed " + errorCode);
@@ -77,6 +103,7 @@ public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandle
                 @Override
                 public void onAdClosed() {
                     Log.d(TAG,"onAdClosed");
+                    containerLayout.removeAllViews();
                     methodChannel.invokeMethod("onAdClosed", null);
                 }
                 @Override
@@ -91,14 +118,6 @@ public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandle
             bannerAd.loadAd((float) showWidth, (float) showHeight, containerLayout);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
-        Log.w(TAG, "onMethodCall: method: " + methodCall.method + " arguments: " + methodCall.arguments);
-        if(methodCall.method.equals("destroy")) {
-            if(bannerAd != null) bannerAd.destroy();
         }
     }
 
