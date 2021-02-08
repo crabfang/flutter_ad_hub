@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
                     onTap: _actionBannerRefresh,
                     child: Container(
                       width: 100,
-                      height: 40,
+                      height: 30,
                       child: Text("刷新banner"),
                     ),
                   ),
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
                     onTap: _actionFullScreenVideo,
                     child: Container(
                       width: 100,
-                      height: 40,
+                      height: 30,
                       child: Text("全屏视频"),
                     ),
                   ),
@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
                     onTap: _actionRewardedVideo,
                     child: Container(
                       width: 100,
-                      height: 40,
+                      height: 30,
                       child: Text("激励视频"),
                     ),
                   ),
