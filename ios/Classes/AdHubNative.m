@@ -54,8 +54,8 @@
     if (showWidth < 1) {
         showWidth = 360;
     }
-    if (showHeight < 1) {
-        showHeight = showWidth;
+    if (showHeight < 0) {
+        showHeight = 0;
     }
     // 创建加载原生广告的View
     if (!self.bgView) {

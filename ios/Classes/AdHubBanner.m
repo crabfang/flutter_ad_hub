@@ -14,6 +14,8 @@
 @property (nonatomic, strong) AdHubNativeExpress *nativeExpress;
 @property (nonatomic, strong) NSObject<FlutterBinaryMessenger>* messenger;
 @property (nonatomic, strong) FlutterMethodChannel* channel;
+@property (nonatomic, strong) UIView *bgView;
+
 
 @end
 
@@ -59,6 +61,10 @@
     if (showHeight < 1) {
         showHeight = showWidth / 6.4;
     }
+    if (!_bgView) {
+        self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, showWidth, showHeight)];
+    }
+
     if (!_banner) {
         self.banner = [[AdHubBannerView alloc] initWithFrame:CGRectMake(0, 0, showWidth, showHeight) spaceID:adId spaceParam:@"" lifeTime:timeout];
         self.banner.delegate = self;
@@ -69,12 +75,13 @@
 
     // 加载广告
     [self.banner ADH_loadBannerAd];
-    return self.banner;
+    [self.bgView addSubview:self.banner];
+    return self.bgView;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([@"refresh" isEqualToString:call.method]) {
-      NSLog(@"refresh");
+      NSLog(@"ADH_refresh");
       NSString *adId = _args[@"adId"];
       NSInteger timeout = [_args[@"timeout"] integerValue];
       NSInteger showWidth = [_args[@"showWidth"] integerValue];
@@ -85,13 +92,14 @@
       if (showHeight < 1) {
           showHeight = showWidth / 6.4;
       }
-      self.banner = [[AdHubBannerView alloc] initWithFrame:CGRectMake(0, 0, showWidth, showHeight) spaceID:adId spaceParam:@"" lifeTime:timeout];
-      self.banner.delegate = self;
+//      if (!_banner) {
+          self.banner = [[AdHubBannerView alloc] initWithFrame:CGRectMake(0, 0, showWidth, showHeight) spaceID:adId spaceParam:@"" lifeTime:timeout];
+          self.banner.delegate = self;
+//      }
 
       // 设置当前的VC，用于广告位点击跳转
       UIWindow* window = [[[UIApplication sharedApplication] delegate] window];
       self.banner.adhubBannerViewController = window.rootViewController;
-
       // 加载广告
       [self.banner ADH_loadBannerAd];
   }
@@ -102,6 +110,10 @@ Banner广告请求成功
 */
 - (void)ADH_bannerDidReceiveAd:(AdHubBannerView *)adHubBanner {
     [_channel invokeMethod:@"ADH_bannerDidReceiveAd" arguments:nil];
+    if (self.bgView.subviews.count > 0) {
+        [self.bgView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    }
+    [self.bgView addSubview:self.banner];
 }
 
 /**

@@ -1,4 +1,6 @@
 
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_ad_hub/plugin_ad_hub.dart';
@@ -29,11 +31,17 @@ class _MyAppState extends State<MyApp> {
   FullscreenVideoAd fullscreenAd;
   @override
   Widget build(BuildContext context) {
-    banner = AdHubBanner("103223", "103229", showWidth: 360);
+    final physicalWidth = window.physicalSize.width;
+    final dpr = window.devicePixelRatio;
+    final screenWidth = physicalWidth / dpr;
+    final bannerHeight = screenWidth / 6.4;
+    final nativeHeight = 220.0;
+
+    banner = AdHubBanner("103223", "103229", showWidth: screenWidth);
     rewardedAd = RewardedVideoAd("103226", "103232");
     fullscreenAd = FullscreenVideoAd("103225", "103231");
     int splashHeight = 10;
-    if(defaultTargetPlatform == TargetPlatform.android) splashHeight = 600;
+    if(defaultTargetPlatform == TargetPlatform.android) splashHeight = 60;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -78,16 +86,16 @@ class _MyAppState extends State<MyApp> {
                 child: AdHubSplash("103222", "103228", bottomPic: "splash_bottom",),
               ),
               Container(
-                width: double.infinity,
-                height: 100,
+                width: screenWidth,
+                height: bannerHeight,
                 margin: EdgeInsets.only(top: 10.0),
                 child: banner,
               ),
               Container(
-                width: double.infinity,
-                height: 300,
+                width: screenWidth,
+                height: nativeHeight,
                 margin: EdgeInsets.only(top: 10.0),
-                child: AdHubNative("103224", "103230", showWidth: 360, showHeight: 200, ),
+                child: AdHubNative("103224", "103230", showWidth: screenWidth, showHeight: nativeHeight, ),
               ),
               Container(
                 width: double.infinity,

@@ -1,6 +1,7 @@
 package com.cabe.flutter.plugin.banner;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -32,6 +33,7 @@ public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandle
 
     public AdHubBanner(Context context, BinaryMessenger messenger, int id, Object args) {
         containerLayout = new FrameLayout(context);
+        containerLayout.setBackgroundColor(Color.BLUE);
         methodChannel = new MethodChannel(messenger, VIEW_TYPE_ID + "#" + id);
         methodChannel.setMethodCallHandler(this);
 
