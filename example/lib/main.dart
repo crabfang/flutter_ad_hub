@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:widget_ad_hub/plugin_ad_hub.dart';
 import 'package:widget_ad_hub/widget_ad_fullscreen_video.dart';
 import 'package:widget_ad_hub/widget_ad_hub_banner.dart';
@@ -26,6 +27,7 @@ class _MyAppState extends State<MyApp> {
     AdHubPlugin.init("20159", "20160");
   }
 
+  AdHubSplash splash;
   AdHubBanner banner;
   RewardedVideoAd rewardedAd;
   FullscreenVideoAd fullscreenAd;
@@ -37,6 +39,8 @@ class _MyAppState extends State<MyApp> {
     final bannerHeight = screenWidth / 6.4;
     final nativeHeight = 220.0;
 
+    splash = AdHubSplash("103222", "103228", bottomPic: "splash_bottom",);
+    splash.setChannelHandle(onHandleSplash);
     banner = AdHubBanner("103223", "103229", showWidth: screenWidth);
     rewardedAd = RewardedVideoAd("103226", "103232");
     fullscreenAd = FullscreenVideoAd("103225", "103231");
@@ -83,7 +87,7 @@ class _MyAppState extends State<MyApp> {
               Container(
                 width: double.infinity,
                 height: splashHeight.toDouble(),
-                child: AdHubSplash("103222", "103228", bottomPic: "splash_bottom",),
+                child: splash,
               ),
               Container(
                 width: screenWidth,
@@ -112,6 +116,10 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+
+  Future<dynamic> onHandleSplash(MethodCall call) async {
+    print("onHandleSplash: ${call.method}: ${call.arguments}");
   }
 
   void _actionBannerRefresh() {

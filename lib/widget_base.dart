@@ -10,12 +10,17 @@ abstract class AdHubWidget extends StatefulWidget {
   String adIdOfAndroid;
   String adIdOfIOS;
   MethodChannel channel;
+  Function(MethodCall call) _channelHandle;
   AdHubState onGetAdHubState(OnViewCreated onViewCreated);
 
   AdHubWidget(String adIdOfAndroid, String adIdOfIOS) {
     this.tag = runtimeType.toString();
     this.adIdOfAndroid = adIdOfAndroid;
     this.adIdOfIOS = adIdOfIOS;
+  }
+
+  void setChannelHandle(Function(MethodCall call) handle) {
+    _channelHandle = handle;
   }
 
   @override
@@ -28,6 +33,7 @@ abstract class AdHubWidget extends StatefulWidget {
 
   Future<dynamic> onHandlerChannel(MethodCall call) async {
     print("$tag: onHandlerChannel: ${call.method}: ${call.arguments}");
+    if(_channelHandle != null) _channelHandle(call);
   }
 
   void destroy() {
