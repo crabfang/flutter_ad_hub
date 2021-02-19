@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
     rewardedAd = RewardedVideoAd("103226", "103232");
     fullscreenAd = FullscreenVideoAd("103225", "103231");
     int splashHeight = 10;
-    if(defaultTargetPlatform == TargetPlatform.android) splashHeight = 60;
+    if(defaultTargetPlatform == TargetPlatform.android) splashHeight = 600;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
