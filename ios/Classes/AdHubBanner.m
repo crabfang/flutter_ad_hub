@@ -134,7 +134,7 @@ Banner广告消失
 Banner广告请求失败
 */
 - (void)ADH_banner:(AdHubBannerView *)adHubBanner didFailToLoadAdWithError:(AdHubRequestError *)error {
-    [_channel invokeMethod:@"ADH_banner didFailToLoadAdWithError" arguments:@{@"errorcode": @(error.code)}];
+    [_channel invokeMethod:@"ADH_banner didFailToLoadAdWithError" arguments:@{@"errorCode": @(error.code)}];
 }
 
 @end

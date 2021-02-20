@@ -113,7 +113,6 @@
 - (void)ADH_rewardedVideo:(AdHubRewardedVideo *)adHubRewardedVideo didFailToLoadAdWithError:(AdHubRequestError *)error {
     NSLog(@"---- ADH_rewardedVideo didFailToLoadAdWithError");
     [_channel invokeMethod:@"ADH_rewardedVideo didFailToLoadAdWithError" arguments:@{@"errorCode": @(error.code)}];
-    
 }
 
 /**
