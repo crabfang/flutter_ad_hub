@@ -86,8 +86,8 @@
     if (showWidth < 1) {
         showWidth = 360;
     }
-    if (showHeight < 1) {
-        showHeight = showWidth;
+    if (showHeight < 0) {
+        showHeight = 0;
     }
     adView.frame = (CGRect){0, 0, showWidth, showHeight};
     if (self.bgView.subviews.count > 0) {
