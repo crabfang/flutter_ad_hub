@@ -72,6 +72,7 @@
 全屏视频物料请求成功
 */
 - (void)ADH_fullscreenVideoDidReceiveAd:(AdHubFullscreenVideo *)adHubFullscreenVideo {
+    NSLog(@"ADH_fullscreenVideoDidReceiveAd");
     UIWindow* window = [[[UIApplication sharedApplication] delegate] window];
     [self.fullscreenVideo ADH_showFullscreenVideoAdFromRootViewController:window.rootViewController];
     [_channel invokeMethod:@"ADH_fullscreenVideoDidReceiveAd" arguments:nil];
@@ -81,6 +82,7 @@
 全屏展现并开始播放视频
 */
 - (void)ADH_fullscreenVideoDidStartPlay:(AdHubFullscreenVideo *)adHubFullscreenVideo {
+    NSLog(@"ADH_fullscreenVideoDidStartPlay");
     [_channel invokeMethod:@"ADH_fullscreenVideoDidStartPlay" arguments:nil];
 }
 
@@ -88,6 +90,7 @@
 全屏视频点击
 */
 - (void)ADH_fullscreenVideoDidClick:(AdHubFullscreenVideo *)adHubFullscreenVideo {
+    NSLog(@"ADH_fullscreenVideoDidClick");
     [_channel invokeMethod:@"ADH_fullscreenVideoDidClick" arguments:nil];
 }
 
@@ -95,6 +98,7 @@
 全屏视频消失
 */
 - (void)ADH_fullscreenVideoDidDismissScreen:(AdHubFullscreenVideo *)adHubFullscreenVideo {
+    NSLog(@"ADH_fullscreenVideoDidDismissScreen");
     [_channel invokeMethod:@"ADH_fullscreenVideoDidDismissScreen" arguments:nil];
 }
 
@@ -102,6 +106,7 @@
 全屏视频请求失败
 */
 - (void)ADH_fullscreenVideo:(AdHubFullscreenVideo *)adHubFullscreenVideo didFailToLoadAdWithError:(AdHubRequestError *)error {
+    NSLog(@"ADH_fullscreenVideo didFailToLoadAdWithError: %@", error);
     [_channel invokeMethod:@"ADH_fullscreenVideo didFailToLoadAdWithError" arguments:@{@"errorCode": @(error.code)}];
 }
 

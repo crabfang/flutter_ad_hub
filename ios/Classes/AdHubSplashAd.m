@@ -75,7 +75,7 @@
 开屏展现
 */
 - (void)ADH_splashDidPresentScreen:(AdHubSplash *)adHubSplash {
-    NSLog(@"---- ADH_splashDidPresentScreen");
+    NSLog(@"ADH_splashDidPresentScreen");
     [_channel invokeMethod:@"ADH_splashDidPresentScreen" arguments:nil];
 }
 
@@ -83,7 +83,7 @@
 开屏点击
 */
 - (void)ADH_splashDidClick:(AdHubSplash *)adHubSplash {
-    NSLog(@"---- ADH_splashDidClick");
+    NSLog(@"ADH_splashDidClick");
     [_channel invokeMethod:@"ADH_splashDidClick" arguments:nil];
 }
 
@@ -91,7 +91,7 @@
 开屏消失
 */
 - (void)ADH_splashDidDismissScreen:(AdHubSplash *)adHubSplash {
-    NSLog(@"---- ADH_splashDidDismissScreen");
+    NSLog(@"ADH_splashDidDismissScreen");
     [_channel invokeMethod:@"ADH_splashDidDismissScreen" arguments:nil];
 }
 
@@ -99,7 +99,7 @@
 开屏请求失败
 */
 - (void)ADH_splash:(AdHubSplash *)adHubSplash didFailToLoadAdWithError:(AdHubRequestError *)error {
-    NSLog(@"---- ADH_splash didFailToLoadAdWithError");
+    NSLog(@"ADH_splash didFailToLoadAdWithError");
     [_channel invokeMethod:@"ADH_splash didFailToLoadAdWithError" arguments:@{@"errorCode": @(error.code)}];
 }
 /**

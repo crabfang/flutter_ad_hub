@@ -1,138 +1,46 @@
-
-import 'dart:ui';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:widget_ad_hub/plugin_ad_hub.dart';
-import 'package:widget_ad_hub/widget_ad_fullscreen_video.dart';
-import 'package:widget_ad_hub/widget_ad_hub_banner.dart';
-import 'package:widget_ad_hub/widget_ad_hub_native.dart';
-import 'package:widget_ad_hub/widget_ad_hub_splash.dart';
-import 'package:widget_ad_hub/widget_ad_rewarded_video.dart';
+import 'package:widget_ad_hub_example/sample.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MaterialApp(
+    title: 'Navigation Basics',
+    home: MyApp(),
+  ));
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    AdHubPlugin.init("20159", "20160");
-  }
-
-  AdHubSplash splash;
-  AdHubBanner banner;
-  RewardedVideoAd rewardedAd;
-  FullscreenVideoAd fullscreenAd;
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final physicalWidth = window.physicalSize.width;
-    final dpr = window.devicePixelRatio;
-    final screenWidth = physicalWidth / dpr;
-    final bannerHeight = screenWidth / 6.4;
-    final nativeHeight = 220.0;
-
-    splash = AdHubSplash("103222", "103228", bottomPic: "splash_bottom",);
-    splash.setChannelHandle(onHandleSplash);
-    banner = AdHubBanner("103223", "103229", showWidth: screenWidth);
-    rewardedAd = RewardedVideoAd("103226", "103232");
-    fullscreenAd = FullscreenVideoAd("103225", "103231");
-    int splashHeight = 10;
-    if(defaultTargetPlatform == TargetPlatform.android) splashHeight = 600;
+    AdHubPlugin.init("20159", "20160");
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: _actionBannerRefresh,
-                    child: Container(
-                      width: 100,
-                      height: 30,
-                      child: Text("刷新banner"),
-                    ),
-                  ),
-                  Text("      "),
-                  GestureDetector(
-                    onTap: _actionFullScreenVideo,
-                    child: Container(
-                      width: 100,
-                      height: 30,
-                      child: Text("全屏视频"),
-                    ),
-                  ),
-                  Text("      "),
-                  GestureDetector(
-                    onTap: _actionRewardedVideo,
-                    child: Container(
-                      width: 100,
-                      height: 30,
-                      child: Text("激励视频"),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                width: double.infinity,
-                height: splashHeight.toDouble(),
-                child: splash,
-              ),
-              Container(
-                width: screenWidth,
-                height: bannerHeight,
-                margin: EdgeInsets.only(top: 10.0),
-                child: banner,
-              ),
-              Container(
-                width: screenWidth,
-                height: nativeHeight,
-                margin: EdgeInsets.only(top: 10.0),
-                child: AdHubNative("103224", "103230", showWidth: screenWidth, showHeight: nativeHeight, ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 1,
-                child: rewardedAd,
-              ),
-              Container(
-                width: double.infinity,
-                height: 1,
-                child: fullscreenAd,
-              )
-            ],
+        home: Scaffold(
+          appBar: AppBar(
+              title: const Text('Plugin example app'),
           ),
+          body: new RaisedButton(
+            child: new Text('Launch Demo'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (context) => new Sample()),
+                );
+              },
+            ),
+        ),
+    );
+  }
+}
+
+class NextPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: new Text("Next Page App Bar"),
         ),
       ),
     );
-  }
-
-  Future<dynamic> onHandleSplash(MethodCall call) async {
-    print("onHandleSplash: ${call.method}: ${call.arguments}");
-  }
-
-  void _actionBannerRefresh() {
-    print("_actionBannerRefresh");
-    banner?.refresh();
-  }
-  
-  void _actionFullScreenVideo() {
-    print("_actionFullScreenVideo");
-    fullscreenAd?.loadAD();
-  }
-  void _actionRewardedVideo() {
-    print("_actionRewardedVideo");
-    rewardedAd?.loadAD();
   }
 }

@@ -80,6 +80,7 @@
 }
 
 - (void)ADH_nativeExpressDidLoad:(AdHubNativeExpress *)adHubNativeExpress{
+    NSLog(@"ADH_nativeExpressDidLoad");
     UIView *adView = adHubNativeExpress.channeNativeAdView.firstObject;
     NSInteger showWidth = [_args[@"showWidth"] integerValue];
     NSInteger showHeight = [_args[@"showHeight"] integerValue];
@@ -95,22 +96,21 @@
     }
     [self.bgView addSubview:adView];
     [_channel invokeMethod:@"ADH_nativeExpressDidLoad" arguments:nil];
-    NSLog(@"arthur：广告加载成功");
 }
 
 - (void)ADH_nativeExpressDislikeDidClick:(AdHubNativeExpress *)adHubNativeExpress{
+    NSLog(@"ADH_nativeExpressDislikeDidClick");
     [_channel invokeMethod:@"ADH_nativeExpressDislikeDidClick" arguments:nil];
-    NSLog(@"arthur：广告点击关闭");
 }
 
 - (void)ADH_nativeExpress:(AdHubNativeExpress *)adHubNativeExpress didFailToLoadAdWithError:(AdHubRequestError *)error{
+    NSLog(@"ADH_nativeExpress：%@", error);
     [_channel invokeMethod:@"ADH_nativeExpress didFailToLoadAdWithError" arguments:@{@"errorCode": @(error.code)}];
-    NSLog(@"arthur: 广告加载失败：%@", error);
 }
 
 - (void)ADH_nativeExpressDidClick:(AdHubNativeExpress *)adHubNativeExpress {
+    NSLog(@"ADH_nativeExpressDidClick");
     [_channel invokeMethod:@"ADH_nativeExpressDidClick" arguments:nil];
-    NSLog(@"arthur：广告点击");
 }
 
 @end

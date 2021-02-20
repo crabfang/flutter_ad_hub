@@ -87,7 +87,7 @@
 激励展现并开始播放视频
 */
 - (void)ADH_rewardedVideoDidStartPlay:(AdHubRewardedVideo *)adHubRewardedVideo {
-    NSLog(@"---- ADH_rewardedVideoDidStartPlay");
+    NSLog(@"ADH_rewardedVideoDidStartPlay");
     [_channel invokeMethod:@"ADH_rewardedVideoDidStartPlay" arguments:nil];
 }
 
@@ -95,7 +95,7 @@
 激励视频点击
 */
 - (void)ADH_rewardedVideoDidClick:(AdHubRewardedVideo *)adHubRewardedVideo {
-    NSLog(@"---- ADH_rewardedVideoDidClick");
+    NSLog(@"ADH_rewardedVideoDidClick");
     [_channel invokeMethod:@"ADH_rewardedVideoDidClick" arguments:nil];
 }
 
@@ -103,7 +103,7 @@
 激励视频消失
 */
 - (void)ADH_rewardedVideoDidDismissScreen:(AdHubRewardedVideo *)adHubRewardedVideo {
-    NSLog(@"---- ADH_rewardedVideoDidDismissScreen");
+    NSLog(@"ADH_rewardedVideoDidDismissScreen");
     [_channel invokeMethod:@"ADH_rewardedVideoDidDismissScreen" arguments:nil];
 }
 
@@ -111,7 +111,7 @@
 激励视频请求失败
 */
 - (void)ADH_rewardedVideo:(AdHubRewardedVideo *)adHubRewardedVideo didFailToLoadAdWithError:(AdHubRequestError *)error {
-    NSLog(@"---- ADH_rewardedVideo didFailToLoadAdWithError");
+    NSLog(@"ADH_rewardedVideo didFailToLoadAdWithError: %@", error);
     [_channel invokeMethod:@"ADH_rewardedVideo didFailToLoadAdWithError" arguments:@{@"errorCode": @(error.code)}];
 }
 
@@ -121,6 +121,7 @@
 @param reward 奖励内容 JSON字符串，自行解析
 */
 - (void)ADH_rewardedVideo:(AdHubRewardedVideo *)adHubRewardedVideo didRewardUserWithReward:(NSObject *)reward {
+    NSLog(@"ADH_rewardedVideo didRewardUserWithReward");
     [_channel invokeMethod:@"ADH_rewardedVideo didRewardUserWithReward" arguments:nil];
 }
 

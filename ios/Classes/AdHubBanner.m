@@ -120,6 +120,7 @@ Banner广告请求成功
 Banner广告点击
 */
 - (void)ADH_bannerDidClick:(AdHubBannerView *)adHubBanner {
+    NSLog(@"ADH_bannerDidClick");
     [_channel invokeMethod:@"ADH_bannerDidClick" arguments:nil];
 }
 
@@ -127,6 +128,7 @@ Banner广告点击
 Banner广告消失
 */
 - (void)ADH_bannerDidDismissScreen:(AdHubBannerView *)adHubBanner {
+    NSLog(@"ADH_bannerDidDismissScreen");
     [_channel invokeMethod:@"ADH_bannerDidDismissScreen" arguments:nil];
 }
 
@@ -134,6 +136,7 @@ Banner广告消失
 Banner广告请求失败
 */
 - (void)ADH_banner:(AdHubBannerView *)adHubBanner didFailToLoadAdWithError:(AdHubRequestError *)error {
+    NSLog(@"ADH_banner didFailToLoadAdWithError %@", error);
     [_channel invokeMethod:@"ADH_banner didFailToLoadAdWithError" arguments:@{@"errorCode": @(error.code)}];
 }
 

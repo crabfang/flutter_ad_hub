@@ -37,6 +37,7 @@
   } else if ([@"init" isEqualToString:call.method]) {
     NSString *appId = call.arguments[@"appIdOfIOS"];
     [AdHubSDKManager configureWithApplicationID:appId];
+    [AdHubSDKManager openTheAdHubLog];
     // result(@{@"code":@(0)});
     result(@0);
   } else {
