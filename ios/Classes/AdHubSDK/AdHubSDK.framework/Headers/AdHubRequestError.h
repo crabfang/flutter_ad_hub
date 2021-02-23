@@ -46,6 +46,9 @@ typedef NS_ENUM(NSInteger, AdHubErrorCode) {
     // 没有广告位信息
     kAdHubErrorNoBuyerInfo                          = 10150,
     
+    // 没有广告位信息
+    kAdHubErrorNoFoundSDK                           = 10151,
+    
     // 渠道未知错误
     kAdHubErrorChannelUnknow                        = 10160,
     

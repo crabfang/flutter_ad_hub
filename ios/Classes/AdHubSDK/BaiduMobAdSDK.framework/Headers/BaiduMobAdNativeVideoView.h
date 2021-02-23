@@ -5,6 +5,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 #import "BaiduMobAdCommonConfig.h"
 #import "BaiduMobAdNativeVideoBaseView.h"
 #import "BaiduMobAdNativeVideoViewDelegate.h"
@@ -24,6 +25,11 @@
  @return BaiduMobAdVideoView
  */
 - (instancetype)initWithFrame:(CGRect)frame andObject:(BaiduMobAdNativeAdObject *)object;
+
+/**
+ 设置AVAudioSessionCategory，play之前调用，默认：AVAudioSessionCategoryAmbient
+ */
+- (void)setAudioSessionCategory:(AVAudioSessionCategory)category;
 
 /**
  开始播放

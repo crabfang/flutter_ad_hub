@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BUMaterialMeta.h"
+#import "BUMopubAdMarkUpDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -67,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface BUNativeExpressInterstitialAd : NSObject
+@interface BUNativeExpressInterstitialAd : NSObject <BUMopubAdMarkUpDelegate>
 
 @property (nonatomic, weak, nullable) id<BUNativeExpresInterstitialAdDelegate> delegate;
 
@@ -80,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes interstitial ad.
  @param slotID : The unique identifier of interstitial ad.
  @param adsize : custom size of ad view.
- @return BUInterstitialAd
+ @return BUNativeExpressInterstitialAd
  */
 - (instancetype)initWithSlotID:(NSString *)slotID adSize:(CGSize)adsize;
 

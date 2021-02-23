@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "BUAdSDKDefines.h"
 #import "BUMaterialMeta.h"
+#import "BUMopubAdMarkUpDelegate.h"
 
 @class BUNativeExpressRewardedVideoAd;
 @class BURewardedVideoModel;
@@ -123,7 +124,7 @@ typedef NS_ENUM(NSUInteger, BUNativeExpressRewardedVideoAdType) {
 @end
 
 
-@interface BUNativeExpressRewardedVideoAd : NSObject
+@interface BUNativeExpressRewardedVideoAd : NSObject <BUMopubAdMarkUpDelegate>
 @property (nonatomic, strong) BURewardedVideoModel *rewardedVideoModel;
 @property (nonatomic, weak, nullable) id<BUNativeExpressRewardedVideoAdDelegate> delegate;
 /// media configuration parameters.
@@ -134,7 +135,7 @@ typedef NS_ENUM(NSUInteger, BUNativeExpressRewardedVideoAdType) {
  Setted to YES when data is not empty and has not been displayed.
  Repeated display is not billed.
  */
-@property (nonatomic, getter=isAdValid, readonly) BOOL adValid;
+@property (nonatomic, getter=isAdValid, readonly) BOOL adValid __attribute__((deprecated("Use nativeExpressRewardedVideoAdDidLoad: instead.")));
 
 - (instancetype)initWithSlotID:(NSString *)slotID rewardedVideoModel:(BURewardedVideoModel *)model;
 

@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,8 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
  广告加载成功后获得的 View广告
  */
 @property (nonatomic, strong, readonly) NSArray *channeNativeAdView;
-
-@property (nonatomic, strong) UIView *currentView;
 
 
 /**
@@ -72,12 +69,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  DrawFlow模板广告图层即将显示
  */
-- (void)ADH_drawAdViewWillShow:(AdHubDrawFlowView *)drawFlowView;
+- (void)ADH_drawAdViewWillShow;
 
 /**
  DrawFlow模板广告图层视频播放失败
  */
-- (void)ADH_drawAdViewVideoDidFailed:(AdHubDrawFlowView *)drawFlowView error:(NSError *)error;
+- (void)ADH_drawAdViewVideoDidFailedWithError:(NSError *)error;
 
 
 
@@ -85,28 +82,28 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  DrawFlow模板广告图层视频开始播放
  */
-- (void)ADH_drawAdViewVideoDidStart:(AdHubDrawFlowView *)drawFlowView;
+- (void)ADH_drawAdViewVideoDidStart;
 
 
 /**
  DrawFlow模板广告图层被点击
  */
-- (void)ADH_drawAdViewDidClick:(AdHubDrawFlowView *)drawFlowView;
+- (void)ADH_drawAdViewDidClick;
 
 /**
  DrawFlow模板广告图层展示广告详情页
  */
-- (void)ADH_drawAdViewDidShowOtherController:(AdHubDrawFlowView *)drawFlowView;
+- (void)ADH_drawAdViewDidShowOtherController;
 
 /**
  DrawFlow模板广告图层关闭广告详情页
  */
-- (void)ADH_drawAdViewDidCloseOtherController:(AdHubDrawFlowView *)drawFlowView;
+- (void)ADH_drawAdViewDidCloseOtherController;
 
 /**
  DrawFlow模板广告用户点击不喜欢
  */
-- (void)ADH_drawAdViewDislikeDidClick:(AdHubDrawFlowView *)drawFlowView;
+- (void)ADH_drawAdViewDislikeDidClick;
 
 @end
 
