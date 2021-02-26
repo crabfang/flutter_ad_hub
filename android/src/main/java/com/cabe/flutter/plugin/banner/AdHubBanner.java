@@ -33,7 +33,6 @@ public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandle
 
     public AdHubBanner(Context context, BinaryMessenger messenger, int id, Object args) {
         containerLayout = new FrameLayout(context);
-        containerLayout.setBackgroundColor(Color.BLUE);
         methodChannel = new MethodChannel(messenger, VIEW_TYPE_ID + "#" + id);
         methodChannel.setMethodCallHandler(this);
 
