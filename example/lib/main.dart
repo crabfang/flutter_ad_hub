@@ -12,21 +12,31 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AdHubPlugin.init("20159", "20160");
+
     return MaterialApp(
         home: Scaffold(
           appBar: AppBar(
               title: const Text('Plugin example app'),
           ),
-          body: new RaisedButton(
-            child: new Text('Launch Demo'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) => new Sample()),
-                );
-              },
-            ),
+          body: Row(
+            children: [
+              new RaisedButton(
+                child: new Text('Init SDK'),
+                onPressed: () {
+                  AdHubPlugin.init("20159", "20160");
+                },
+              ),
+              new RaisedButton(
+                child: new Text('Launch Demo'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (context) => new Sample()),
+                  );
+                },
+              ),
+            ],
+          )
         ),
     );
   }

@@ -81,6 +81,9 @@ public class AdHubBanner implements PlatformView, MethodChannel.MethodCallHandle
 
     private void createBanner() {
         try {
+            if(bannerAd != null) {
+                bannerAd.destroy();
+            }
             containerLayout.removeAllViews();
 
             bannerAd = new BannerAd(containerLayout.getContext(), adId, new BannerAdListener() {
